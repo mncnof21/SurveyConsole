@@ -1,0 +1,313 @@
+﻿@{
+    ViewData["Title"] = "Detail Survey";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    SurveyConsole.Models.Survdbpgsql.SurveyresultClient datapribadi = ViewBag.datapribadi;
+    List<SurveyConsole.Models.Survdbpgsql.VwResultQuisioner> kuesioner = ViewBag.kuesioner;
+    List<SurveyConsole.Models.Survdbpgsql.VwResultUpload> dokumen = ViewBag.dokumen;
+}
+
+@section Scripts{
+    <script>
+        var jq = $.noConflict();
+        var baseUrl = '@((this.Context.Request.IsHttps ? "https://" : "http://") + (this.Context.Request.Host.Value))';
+    </script>
+    <script src="~/js/vuejs/vue.js"></script>
+    <script src="~/js/axios/axios.js"></script>
+    <script src="~/js/promise-polyfill/dist/polyfill.js"></script>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            watch: {
+
+            },
+            mounted: function () {
+
+            },
+            methods: {
+                downloadDoc: function () {
+                    var t = document.getElementById("frmdownload"), a = {
+                        id: document.getElementById("idsurvey").value
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("DownloadDPKDOK", "Result")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/Result";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+            }
+        });
+    </script>
+}
+
+<div id="app">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Detail Survey</h4>
+                    </div><!--end card-header-->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <div class="card-header" id="headingOne">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Data Pribadi
+                                                </button>
+                                            </h2>
+                                        </div>
+
+                                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                @if (datapribadi != null)
+                                                {
+                                                    <form id="frmclient">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Gelar Depan</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.GelarDepan">                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Nama</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Nama">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Gelar Belakang</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.GelarBelakang">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Nama KTP</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.NamaKtp">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">No KTP</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.NoKtp">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">KTP Expire From</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@(datapribadi.KtpExpireFrom.HasValue ? datapribadi.KtpExpireFrom.Value.ToString("dd-MM-yyyy") : "")">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">KTP Expire To</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@(datapribadi.KtpExpireTo.HasValue ? datapribadi.KtpExpireTo.Value.ToString("dd-MM-yyyy") : "")">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Ao</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Ao">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Tgl Lahir</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@(datapribadi.Tgllahir.HasValue ? datapribadi.Tgllahir.Value.ToString("dd-MM-yyyy") : "")">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Tempat Lahir</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Tempatlahir">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Nama Ibu</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Namaibu">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Alamat</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Alamat">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">RT</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Rt">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">RW</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Rw">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Kode Pos</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Kodepos">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Kelurahan</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Kelurahan">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Kecamatan</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Kecamatan">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">No HP</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Hpno">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">No Telepon</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Telpno">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">No Fax</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Faxno">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">No Polisi</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Nopol">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Lat</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Lat">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Lng</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" readonly class="form-control-plaintext" value="@datapribadi.Lng">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="headingTwo">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    Kuesioner
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped">
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Pertanyaan</th>
+                                                            <th>Jawaban</th>
+                                                        </tr>
+                                                        @if (kuesioner != null && kuesioner.Count() > 0)
+                                                        {
+                                                            int i = 1;
+                                                            @foreach (var item in kuesioner)
+                                                            {
+                                                                <tr>
+                                                                    <td>@(i)</td>
+                                                                    <td>@(item.Pertanyaan)</td>
+                                                                    <td>@(item.Jawaban)</td>
+                                                                </tr>
+
+                                                                i++;
+                                                            }
+                                                        }
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="headingThree">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                    Dokumen
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <form id="frmdownload">
+                                                        <input type="hidden" id="idsurvey" value="@datapribadi.Id">
+                                                        @*<button type="button" class="btn btn-success btn-block" v-on:click="downloadDoc()">Download</button>*@
+                                                        </form>
+                                                        <table class="table table-striped">
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>Nama Dokumen</th>
+                                                                <th>Kode</th>
+                                                                <th>File</th>
+                                                            </tr>
+                                                            @if (dokumen != null && dokumen.Count() > 0)
+                                                            {
+                                                                int i = 1;
+                                                                @foreach (var item in dokumen)
+                                                                {
+                                                                    <tr>
+                                                                        <td>@(i)</td>
+                                                                        <td>@(item.Desc)</td>
+                                                                        <td>@(item.Kode)</td>
+                                                                        <td><a href="@(Url.Content(item.Path))">@(item.Filename)</a></td>
+                                                                    </tr>
+                                                                    i++;
+                                                                }
+                                                            }
+                                                        </table>
+</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+    </div><!-- container -->
+</div>

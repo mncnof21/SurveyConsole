@@ -1,0 +1,583 @@
+﻿@using SurveyConsole.Models.FACEDB;
+@{
+    //ViewData["Title"] = "Detail - Dana Mobil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    String module = ViewData["module"].ToString();
+    String content = ViewData["content"].ToString();
+    String title = ViewData["title"].ToString();
+
+    var data = ViewBag.detail;
+}
+
+@section Scripts{
+    <script>
+        var jq = $.noConflict();
+        var baseUrl = '@((this.Context.Request.IsHttps ? "https://" : "http://") + (this.Context.Request.Host.Value))';
+    </script>
+    <script src="~/js/vuejs/vue.js"></script>
+    <script src="~/js/axios/axios.js"></script>
+    <script src="~/js/promise-polyfill/dist/polyfill.js"></script>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+            watch: {
+
+            },
+            mounted: function () {
+
+            },
+            methods: {
+                submitItrack: function () {
+                    var t = document.getElementById("frmpushitrack"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "itrack-submit"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("SubmitItrack", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaMobil";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                surveyOnprogress: function () {
+                    var t = document.getElementById("frmsurveydata"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "survey-onprogress",
+                        wop: document.getElementById('surveyor').value
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("SurveyOnprogress", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaMobil";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                surveyDone: function () {
+                    var t = document.getElementById("frmsurveydata"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "survey-done"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("SurveyDone", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaMobil";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                submitInputCore: function () {
+                    var t = document.getElementById("frminputcore"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "core-submit",
+                        contract_number: document.getElementById("contractno_msix").value
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("SubmitCore", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaMobil";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                committeeApproved: function () {
+                    var t = document.getElementById("frmcommittee"), a = {
+                        "application_id": document.getElementById("siapid").value,
+                        "status": "approval-approved",
+                        "contract_number": document.getElementById("contractno").value,
+                        "approved_data": [{
+                            "approved_amount": parseInt(document.getElementById("principal").value),
+                            "approved_fee": parseInt(document.getElementById("fee").value),
+                            "approved_tenor": parseInt(document.getElementById("tenor").value),
+                            "approved_installment": parseInt(document.getElementById("installment").value),
+                            "approved_disbursement": parseInt(document.getElementById("disbursement").value)
+                        }]
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("CommitteeApproved", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaMobil";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                committeeReject: function () {
+                    var t = document.getElementById("frmcommittee"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "approval-reject"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("CommitteeReject", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaMobil";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                committeeCancel: function () {
+                    var t = document.getElementById("frmcommittee"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "approval-cancel"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("CommitteeCancel", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaMobil";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                goliveActive: function () {
+                    var t = document.getElementById("frmdisburse"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "golive-active"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("GoliveActive", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaMobil";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                goliveDisburse: function () {
+                    var t = document.getElementById("frmdisburse"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "golive-disburse"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("GoliveDisburse", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaMobil";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                loanTerminate: function () {
+                    var t = document.getElementById("frmterminate"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "loan-terminate"
+                    };
+
+                    Swal.fire({
+                        title: "Konfirmasi",
+                        text: "Anda yakin untuk pelunasan data ini?",
+                        icon: "warning",
+                        showCancelButton: !0,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Ya, Submit!",
+                        cancelButtonText: "Batal"
+                    }).then(b => {
+                        b.value && axios({
+                            method: 'post',
+                            url: baseUrl + '@Url.Action("LoanTerminate", "Siap")',
+                            data: a
+                        }).then(t => {
+                            Swal.fire("Sukses", t.data.message, "success").then(function () {
+                                window.location.href = baseUrl + "/Siap/DanaMobil";
+                            })
+                        }).catch(t => {
+                            Swal.fire("Gagal!", t.data.message, "error")
+                        })
+                    });
+                },
+                surveyOnprogressRumah: function () {
+                    var t = document.getElementById("frmsurveydata"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "survey-onprogress",
+                        wop: document.getElementById('surveyor').value
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("SurveyOnprogressRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                surveyDoneRumah: function () {
+                    var t = document.getElementById("frmsurveydata"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "survey-done"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("SurveyDoneRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                appraisalUnpaidRumah: function () {
+                    var t = document.getElementById("frmappraisal"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "appraisal-unpaid"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("AppraisalUnpaidRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                appraisalPaidRumah: function () {
+                    var t = document.getElementById("frmappraisal"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "appraisal-paid"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("AppraisalPaidRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                appraisalOnprogress: function () {
+                    var t = document.getElementById("frmappraisal"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "appraisal-onprogress"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("AppraisalOnprogressRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                appraisalDone: function () {
+                    var t = document.getElementById("frmappraisal"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "appraisal-done"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("AppraisalDoneRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                submitInputCoreRumah: function () {
+                    var t = document.getElementById("frminputcore"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "core-submit",
+                        contract_number: document.getElementById("contractno_msix").value
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("SubmitCoreRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                committeeApprovedRumah: function () {
+                    var t = document.getElementById("frmcommittee"), a = {
+                        "application_id": document.getElementById("siapid").value,
+                        "status": "approval-approved",
+                        "contract_number": document.getElementById("contractno").value,
+                        "approved_data": [{
+                            "approved_amount": parseInt(document.getElementById("principal").value),
+                            "approved_fee": parseInt(document.getElementById("fee").value),
+                            "approved_tenor": parseInt(document.getElementById("tenor").value),
+                            "approved_installment": parseInt(document.getElementById("installment").value),
+                            "approved_disbursement": parseInt(document.getElementById("disbursement").value)
+                        }]
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("CommitteeApprovedRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                committeeRejectRumah: function () {
+                    var t = document.getElementById("frmcommittee"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "approval-reject"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("CommitteeRejectRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                committeeCancelRumah: function () {
+                    var t = document.getElementById("frmcommittee"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "approval-cancel"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("CommitteeCancelRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                signOnprogressRumah: function () {
+                    var t = document.getElementById("frmsigndata"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "sign-onprogress"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("SignOnprogressRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                signDoneRumah: function () {
+                    var t = document.getElementById("frmsigndata"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "sign-done"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("SignDoneRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                goliveActiveRumah: function () {
+                    var t = document.getElementById("frmdisburse"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "golive-active"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("GoliveActiveRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                goliveDisburseRumah: function () {
+                    var t = document.getElementById("frmdisburse"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "golive-disburse"
+                    };
+
+                    axios({
+                        method: 'post',
+                        url: baseUrl + '@Url.Action("GoliveDisburseRumah", "Siap")',
+                        data: a
+                    }).then(t => {
+                        Swal.fire("Sukses", t.data.message, "success").then(function () {
+                            window.location.href = baseUrl + "/Siap/DanaRumah";
+                        })
+                    }).catch(t => {
+                        Swal.fire("Gagal!", t.data.message, "error")
+                    });
+                },
+                loanTerminateRumah: function () {
+                    var t = document.getElementById("frmterminate"), a = {
+                        application_id: document.getElementById("siapid").value,
+                        status: "loan-terminate"
+                    };
+
+                    Swal.fire({
+                        title: "Konfirmasi",
+                        text: "Anda yakin untuk pelunasan data ini?",
+                        icon: "warning",
+                        showCancelButton: !0,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Ya, Submit!",
+                        cancelButtonText: "Batal"
+                    }).then(b => {
+                        b.value && axios({
+                            method: 'post',
+                            url: baseUrl + '@Url.Action("LoanTerminateRumah", "Siap")',
+                            data: a
+                        }).then(t => {
+                            Swal.fire("Sukses", t.data.message, "success").then(function () {
+                                window.location.href = baseUrl + "/Siap/DanaRumah";
+                            })
+                        }).catch(t => {
+                            Swal.fire("Gagal!", t.data.message, "error")
+                        })
+                    });
+                },
+            }
+        });
+    </script>
+}
+
+<div id="app">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">@(title)</h4>
+                    </div><!--end card-header-->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @if (module == "mobil")
+                                {
+                                    @(await Html.PartialAsync(content, (SiapDm) data));
+                                }
+                                else if (module == "rumah")
+                                {
+                                    @(await Html.PartialAsync(content, (SiapDr) data));
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+    </div><!-- container -->
+
+    <div class="modal fade" id="AddModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" v-on:click="closeModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

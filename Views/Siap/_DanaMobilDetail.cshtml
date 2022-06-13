@@ -1,0 +1,550 @@
+﻿@using SurveyConsole.Models.FACEDB;
+@model SiapDm;
+
+@{
+    String siapurl = TempData["SiapUrl"].ToString();
+    String sts = Model.MfinState;
+
+    String strStnkPhoto = Model.StnkPhoto.Replace("C:\\","/").Replace("\\","/").Replace("Application/APISIAP/wwwroot/Upload", "images");
+    String strCarPhoto = Model.CarPhoto.Replace("C:\\", "/").Replace("\\", "/").Replace("Application/APISIAP/wwwroot/Upload", "images");
+    String strSelfieWithKtpPhoto = Model.SelfieWithKtpPhoto.Replace("C:\\", "/").Replace("\\", "/").Replace("Application/APISIAP/wwwroot/Upload", "images");
+    String strNpwpPhoto = Model.NpwpPhoto.Replace("C:\\", "/").Replace("\\", "/").Replace("Application/APISIAP/wwwroot/Upload", "images");
+
+    String lblsts = "";
+
+    String stsbtnitrack = "";
+    String stsbtnsurveyprogress = "";
+    String stsbtnsurveydone = "";
+    String stsbtninputcore = "";
+    String stsbtncommitteeapprove = "";
+    String stsbtncommitteereject = "";
+    String stsbtncommitteecancel = "";
+    String stsbtnterminate = "";
+    String stsbtngoliveactive = "";
+    String stsbtngolivedisburse = "";
+}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="datadiri-tab" data-toggle="tab" href="#datadiri" role="tab" aria-controls="datadiri" aria-selected="true">Data Diri</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="financing-tab" data-toggle="tab" href="#financing" role="tab" aria-controls="financing" aria-selected="false">Data Pembiayaan & Kendaraan</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <br />
+    <div class="tab-pane fade show active" id="datadiri" role="tabpanel" aria-labelledby="datadiri-tab">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-4 col-form-label">Nama Client</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="name" value="@Model.FullName" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="nik" class="col-sm-4 col-form-label">NIK Client</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="nik" value="@Model.NikNumber" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ttl" class="col-sm-4 col-form-label">Tempat/Tanggal Lahir</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="ttl" value="@(Model.PlaceOfBirth + " , " + (Model.BirthDate.HasValue ? Model.BirthDate.Value.ToString(" dd-MM-yyyy") : "" ))" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="mothername" class="col-sm-4 col-form-label">Nama Ibu Kandung</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="mothername" value="@(Model.MothersName)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="spouse" class="col-sm-4 col-form-label">Nama Pasangan</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="spouse" value="@(Model.SpouseName)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="spousenik" class="col-sm-4 col-form-label">NIK Pasangan</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="spousenik" value="@(Model.SpouseNikNumber)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="jobtype" class="col-sm-4 col-form-label">Bekerja/Tidak Bekerja</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="jobtype" value="@(Model.JobType)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="company" class="col-sm-4 col-form-label">Nama Perusahaan</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="company" value="@(Model.CompanyName)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="company" class="col-sm-4 col-form-label">Nama Perusahaan</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="company" value="@(Model.CompanyName)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="companyaddr" class="col-sm-4 col-form-label">Nama Perusahaan</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="companyaddr" value="@(Model.CompanyAddress)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="companyphone" class="col-sm-4 col-form-label">No Telp Perusahaan</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="companyphone" value="@(Model.CompanyPhone)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="income" class="col-sm-4 col-form-label">Nett Pendapatan / Bulan</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="income" value="@(Model.MonthlyIncome)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-4 col-form-label">Email</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="email" value="@(Model.Email)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="npwp" class="col-sm-4 col-form-label">No NPWP</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="npwp" value="@(Model.NpwpNumber)" readonly disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form">
+                    <div class="form-group row">
+                        <label for="address" class="col-sm-4 col-form-label">Alamat Client</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="address" value="@(Model.DomAddress)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="village" class="col-sm-4 col-form-label">Kelurahan</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="village" value="@(Model.DomSubdistrict2)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="subdistrict" class="col-sm-4 col-form-label">Kecamatan</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="subdistrict" value="@(Model.DomSubdistrict1)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="province" class="col-sm-4 col-form-label">Provinsi</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="province" value="@(Model.DomProvince)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="postalcode" class="col-sm-4 col-form-label">Kode Pos</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="postalcode" value="@(Model.DomPostalCode)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ownership" class="col-sm-4 col-form-label">Jenis Domisili</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="ownership" value="@(Model.DomOwnership)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="plnnumber" class="col-sm-4 col-form-label">No Meter Listrik</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="plnnumber" value="@(Model.PlnNumber)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pamnumber" class="col-sm-4 col-form-label">No Meter PAM</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="pamnumber" value="@(Model.PamNumber)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="bankaccountname" class="col-sm-4 col-form-label">Bank Account Name</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="bankaccountname" value="@(Model.BankAccountName)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="bankname" class="col-sm-4 col-form-label">Bank Name</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="bankname" value="@(Model.BankName)" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="bankaccountnumber" class="col-sm-4 col-form-label">Bank Account Number</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="bankaccountnumber" value="@(Model.BankAccountNumber)" readonly disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="financing" role="tabpanel" aria-labelledby="financing-tab">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form">
+                            <div class="form-group row">
+                                <label for="siapid" class="col-sm-4 col-form-label">Siap ID</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="siapid" value="@(Model.SiapId)" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="siapid" class="col-sm-4 col-form-label">Contract No.</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="contractno" value="@(Model.ContractNo)" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="principal" class="col-sm-4 col-form-label">Pokok Hutang</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="principal" value="@(Model.SubmittedAmount)" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="fee" class="col-sm-4 col-form-label">Biaya Admin</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="fee" value="@(Model.Fee)" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tenor" class="col-sm-4 col-form-label">Tenor</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="tenor" value="@(Model.Tenor)" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="installment" class="col-sm-4 col-form-label">Angsuran</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="installment" value="@(Model.EstimatedInstallment)" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="installment" class="col-sm-4 col-form-label">Disbursement</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="disbursement" value="@(Model.EstimatedDisbursement)" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="policeno" class="col-sm-4 col-form-label">No Polisi</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="policeno" value="@(Model.CarRegistrationNumber)" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cartype" class="col-sm-4 col-form-label">Merk/Jenis/Tipe Kendaraan</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="cartype" value="@(Model.CarBrand + " /" + Model.CarType + "/" + Model.CarModel)" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="year" class="col-sm-4 col-form-label">Tahun Kendaraan</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="year" value="@(Model.CarYear)" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="insurance" class="col-sm-4 col-form-label">Jenis Asuransi Kendaraan</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" id="insurance" value="@(Model.CarInsurance)" readonly disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="stnk" class="col-sm-4 col-form-label">Foto STNK</label>
+                                <div class="col-sm-8">
+                                    <a href="@(siapurl + strStnkPhoto)" target="_blank">Foto STNK</a>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="carphoto" class="col-sm-4 col-form-label">Foto Kendaraan</label>
+                                <div class="col-sm-8">
+                                    <a href="@(siapurl + strCarPhoto)" target="_blank">Foto Kendaraan</a>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="selfie" class="col-sm-4 col-form-label">Foto Selfie dengan KTP</label>
+                                <div class="col-sm-8">
+                                    <a href="@(siapurl + strSelfieWithKtpPhoto)" target="_blank">Foto Selfie dengan KTP</a>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="npwp" class="col-sm-4 col-form-label">Foto NPWP</label>
+                                <div class="col-sm-8">
+                                    <a href="@(siapurl + strNpwpPhoto)" target="_blank">Foto NPWP</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Tracking Status</h4>
+                    </div><!--end card-header-->
+                    <div class="card-body">
+                        <div class="main-timeline mt-3">
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">Entry Data</span>
+                                <div class="timeline-content">
+                                    <p class="description">
+                                        Status : <b>
+                                            @{
+                                                if (sts == "push-to-mfin")
+                                                {
+                                                    lblsts = sts;
+                                                }
+                                                else
+                                                {
+                                                    lblsts = "";
+                                                }
+                                            }
+                                            @(lblsts)
+                                        </b>
+                                        <input class="form-control" id="sts" value="@(sts)" readonly />
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">Push ITrack</span>
+                                <div class="timeline-content">
+                                    <p class="description">
+                                        Status :
+                                        @{
+                                            if (sts == "push-to-mfin")
+                                            {
+                                                stsbtnitrack = "";
+                                            }
+                                            else
+                                            {
+                                                stsbtnitrack = "disabled";
+                                            }
+                                        }
+                                        <form id="frmpushitrack">
+                                            <input class="form-control" id="sts" value="@(sts)" readonly />
+                                            <button type="button" class="btn btn-primary btn-block" v-on:click="submitItrack()" @(stsbtnitrack)>Submit</button>
+                                        </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">Survey Data</span>
+                                <div class="timeline-content">
+                                    <p class="description">
+                                        
+                                        @{
+                                            if (sts == "itrack-submit")
+                                            {
+                                                stsbtnsurveyprogress = "";
+                                            }
+                                            else
+                                            {
+                                                stsbtnsurveyprogress = "disabled";
+                                            }
+
+                                            if (sts == "survey-onprogress")
+                                            {
+                                                stsbtnsurveydone = "";
+                                            }
+                                            else
+                                            {
+                                                stsbtnsurveydone = "disabled";
+                                            }
+                                        }
+                                        <form id="frmsurveydata">
+                                            Status :
+                                            <input class="form-control" id="sts" value="@(sts)" readonly /><br />
+                                            Survey Date :
+                                            <input class="form-control" id="surveydate" value="@(Model.SurveyDate)" readonly />
+                                            <select class="form-control" id="surveyor" name="surveyor">
+                                                <option value="">-- select</option>
+                                                <option value="MNCF">MNCF</option>
+                                                <option value="POS">POS</option>
+                                            </select>
+                                            <button type="button" class="btn btn-warning btn-block" v-on:click="surveyOnprogress()" @(stsbtnsurveyprogress)>On progress</button>
+                                            <button type="button" class="btn btn-success btn-block" v-on:click="surveyDone()" @(stsbtnsurveydone)>Done</button>
+                                        </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">Input Core</span>
+                                <div class="timeline-content">
+                                    <p class="description">
+                                        Status :
+                                        @{
+                                            if (sts == "survey-done")
+                                            {
+                                                stsbtninputcore = "";
+                                            }
+                                            else
+                                            {
+                                                stsbtninputcore = "disabled";
+                                            }
+                                        }
+                                        <form id="frminputcore">
+                                            <input class="form-control" id="sts" value="@(sts)" readonly /><br />
+                                            Contract No. :<br />
+                                            <input class="form-control" id="contractno_msix" value="" @(stsbtninputcore) />
+                                            <button type="button" class="btn btn-success btn-block" v-on:click="submitInputCore()" @(stsbtninputcore)>Submit</button>
+                                        </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">Committee</span>
+                                <div class="timeline-content">
+                                    <p class="description">
+                                        Status :
+                                        @{
+                                            if (sts == "core-submit")
+                                            {
+                                                stsbtncommitteeapprove = "";
+                                                stsbtncommitteereject = "";
+                                                stsbtncommitteecancel = "";
+                                            }
+                                            else
+                                            {
+                                                stsbtncommitteeapprove = "disabled";
+                                                stsbtncommitteereject = "disabled";
+                                                stsbtncommitteecancel = "disabled";
+                                            }
+                                        }
+                                        <form id="frmcommittee">
+                                            <input class="form-control" id="sts" value="@(sts)" readonly />
+                                            <button type="button" class="btn btn-success btn-block" v-on:click="committeeApproved()" @(stsbtncommitteeapprove)>Approved</button>
+                                            <button type="button" class="btn btn-danger btn-block" v-on:click="committeeReject()" @(stsbtncommitteereject)>Reject</button>
+                                            <button type="button" class="btn btn-secondary btn-block" v-on:click="committeeCancel()" @(stsbtncommitteecancel)>Cancel</button>
+                                        </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">Offer. Letter</span>
+                                <div class="timeline-content">
+                                    <p class="description">
+                                        Status : <b>Agree/ Disagree</b>
+                                        <input class="form-control" id="sts" value="@(sts)" readonly />
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">Collateral</span>
+                                <div class="timeline-content">
+                                    <p class="description">
+                                        Status :
+                                        <input class="form-control" id="sts" value="@(sts)" readonly />
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">Digital Sign</span>
+                                <div class="timeline-content">
+                                    <p class="description">
+                                        Status : 
+                                        <input class="form-control" id="sts" value="@(sts)" readonly />
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">Disburse</span>
+                                <div class="timeline-content">
+                                    <p class="description">
+                                        Status :
+                                        @{
+                                            if (sts == "sign-mfin")
+                                            {
+                                                stsbtngoliveactive = "";
+                                            }
+                                            else
+                                            {
+                                                stsbtngoliveactive = "disabled";
+                                            }
+
+                                            if (sts == "golive-active")
+                                            {
+                                                stsbtngolivedisburse = "";
+                                            }
+                                            else
+                                            {
+                                                stsbtngolivedisburse = "disabled";
+                                            }
+                                        }
+                                        <form id="frmdisburse">
+                                            <input class="form-control" id="sts" value="@(sts)" readonly />
+                                            <button type="button" class="btn btn-primary btn-block" v-on:click="goliveActive()" @(stsbtngoliveactive)>Active</button>
+                                            <button type="button" class="btn btn-success btn-block" v-on:click="goliveDisburse()" @(stsbtngolivedisburse)>Disburse</button>
+                                        </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="timeline">
+                                <span class="timeline-icon"></span>
+                                <span class="year">Loan Terminate</span>
+                                <div class="timeline-content">
+                                    <p class="description">
+                                        Status :
+                                        @{
+                                            if (sts == "golive-disburse")
+                                            {
+                                                stsbtnterminate = "";
+                                            }
+                                            else
+                                            {
+                                                stsbtnterminate = "disabled";
+                                            }
+                                        }
+                                        <form id="frmterminate">
+                                            <input class="form-control" id="sts" value="@(sts)" readonly />
+                                            <button type="button" class="btn btn-primary btn-block" v-on:click="loanTerminate()" @(stsbtnterminate)>Submit</button>
+                                        </form>
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>  <!--end card-body-->
+                </div><!--end card-->
+            </div>
+        </div>
+    </div>
+</div>
