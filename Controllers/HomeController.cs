@@ -66,6 +66,35 @@ namespace SurveyConsole.Controllers
 
                 ViewBag.User = result;
 
+
+                if(HttpContext.Session.GetString("BranchCode") == "000")
+                {
+                    var querybranchall = from masterbranch in _survDB.MasterBranches
+                             select new MasterBranch()
+                             {
+                                 CCode = masterbranch.CCode,
+                                 CName = masterbranch.CName
+                             };
+                    var resultbranchall = querybranchall.ToList();
+
+                    ViewBag.Branch = resultbranchall;
+                }
+                else
+                {
+                    var querybranchall = from masterbranch in _survDB.MasterBranches
+                                         where masterbranch.CCode == HttpContext.Session.GetString("BranchCode")
+                                         select new MasterBranch()
+                                         {
+                                             CCode = masterbranch.CCode,
+                                             CName = masterbranch.CName
+                                         };
+                    var resultbranchall = querybranchall.ToList();
+
+                    ViewBag.Branch = resultbranchall;
+                }
+
+                
+
                 return View();
             }
             else
@@ -163,7 +192,7 @@ namespace SurveyConsole.Controllers
                 tl.Alamat = fac.Address;
                 tl.IsPush = 0;
                 tl.Creby = HttpContext.Session.GetString("User");
-                tl.Ccode = HttpContext.Session.GetString("BranchCode");
+                tl.Ccode = fac.CCode;
 
 
                 _survDB.Tasklists.Add(tl);               
@@ -363,6 +392,30 @@ namespace SurveyConsole.Controllers
             });                                       
         }
 
+        public ActionResult GetBranch(string value)
+        {
+            var query = _survDB.MasterBranches
+                .Join(
+                _survDB.UserRoles,
+                a => a.CCode,
+                b => b.CCode,
+                (a, b) => new {
+                    UserId = b.UserId,
+                    CCode = b.CCode,
+                    CName = a.CName
+                }
+                ).Where(c => c.UserId == value);
+
+            var result = query.ToList();
+
+            string output = "<option value=''>- Select Branch -</option>";
+            foreach (var data in result)
+            {
+                output += "<option value='" + data.CCode + "'>" + data.CName + "</option>";
+            }
+
+            return Json(output);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
     var user = ViewBag.User;
+    var branch = ViewBag.Branch;
 }
 
 <style>
@@ -16,7 +17,7 @@
     </script>
     <script src="~/js/vuejs/vue.js"></script>
     <script src="~/js/axios/axios.js"></script>
-    <script src="~/js/promise-polyfill/dist/polyfill.js"></script>
+    <script src="~/js/promise-polyfill/dist/polyfill.js"></script>    
 
     <script>
         var vm = new Vue({
@@ -68,14 +69,16 @@
                     }).catch(t => { }).then(t => { this.isLoading = !1 })
                 },
                 addCustomer: function () {
+                    var sel = document.getElementById("branch");
                     var t = document.getElementById("addAppl"), a = {
+                        CCode: sel.options[sel.selectedIndex].value,
                         CustName: document.getElementById("nama").value,
                         CustNik: document.getElementById("nik").value,
                         Phone: document.getElementById("notelp").value,
                         UnitId: document.getElementById("nopol").value,
                         Address: document.getElementById("alamat").value
                     };
-                    a.CustName && a.CustNik && a.Phone && a.UnitId && a.Address ?
+                    a.CCode && a.CustName && a.CustNik && a.Phone && a.UnitId && a.Address ?
                         axios({
                             method: "post",
                             url: '@Url.Action("AddAppl", "Home")',
@@ -379,6 +382,19 @@
                 <div class="modal-body">
                     <form id="addAppl" method="post">
                         <div class="form">
+                            <div class="form-group">
+                                <label for="nama">Cabang</label>
+                                <select id="branch" name="branch" class="form-control">
+                                    <option value="@String.Empty">- Select Branch -</option>
+                                    @if (branch != null)
+                                    {
+                                        foreach (var item in branch)
+                                        {
+                                            <option value="@item.CCode">@item.CName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label for="nama">Nama</label>
                                 <input type="text" class="form-control" id="nama" name="nama" required>

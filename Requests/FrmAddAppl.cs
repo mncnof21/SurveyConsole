@@ -8,6 +8,7 @@ namespace SurveyConsole.Requests
 {
     public class FrmAddAppl
     {
+        public string CCode { get; set; }
         public string CustName { get; set; }
         public string CustNik { get; set; }
         public string Phone { get; set; }
@@ -17,6 +18,14 @@ namespace SurveyConsole.Requests
         public List<ValidationError> Validate()
         {
             List<ValidationError> result = new List<ValidationError>();
+
+            #region ValidateCCode
+            if (String.IsNullOrEmpty(CCode))
+            {
+                ValidationError error = new ValidationError("CCode", "Cabang harus diisi!");
+                result.Add(error);
+            }
+            #endregion
 
             #region ValidateCustName
             if (String.IsNullOrEmpty(CustName))

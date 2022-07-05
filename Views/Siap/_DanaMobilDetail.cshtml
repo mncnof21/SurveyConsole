@@ -272,29 +272,40 @@
                             </div>
                             <div class="form-group row">
                                 <label for="stnk" class="col-sm-4 col-form-label">Foto STNK</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-8" style="padding-top:9px;">
                                     <a href="@(siapurl + strStnkPhoto)" target="_blank">Foto STNK</a>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="carphoto" class="col-sm-4 col-form-label">Foto Kendaraan</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-8" style="padding-top:9px;">
                                     <a href="@(siapurl + strCarPhoto)" target="_blank">Foto Kendaraan</a>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="selfie" class="col-sm-4 col-form-label">Foto Selfie dengan KTP</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-8" style="padding-top:9px;">
                                     <a href="@(siapurl + strSelfieWithKtpPhoto)" target="_blank">Foto Selfie dengan KTP</a>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="npwp" class="col-sm-4 col-form-label">Foto NPWP</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-8" style="padding-top:9px;">
                                     <a href="@(siapurl + strNpwpPhoto)" target="_blank">Foto NPWP</a>
                                 </div>
                             </div>
-                        </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                    <form id="frmrejectdata">
+                                        <button type="button" class="btn btn-danger btn-block" v-on:click="rejectDanaMobil()">Reject</button>
+                                    </form>
+                                </div>
+                                <div class="col-sm-4">
+                                </div>                                
+                            </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -411,9 +422,7 @@
                                             }
                                         }
                                         <form id="frminputcore">
-                                            <input class="form-control" id="sts" value="@(sts)" readonly /><br />
-                                            Contract No. :<br />
-                                            <input class="form-control" id="contractno_msix" value="" @(stsbtninputcore) />
+                                            <input class="form-control" id="sts" value="@(sts)" readonly /><br />                                            
                                             <button type="button" class="btn btn-success btn-block" v-on:click="submitInputCore()" @(stsbtninputcore)>Submit</button>
                                         </form>
                                     </p>
@@ -442,6 +451,8 @@
                                         }
                                         <form id="frmcommittee">
                                             <input class="form-control" id="sts" value="@(sts)" readonly />
+                                            Contract No. :<br />
+                                            <input class="form-control" id="contractno_msix" value="" @(stsbtninputcore) />
                                             <button type="button" class="btn btn-success btn-block" v-on:click="committeeApproved()" @(stsbtncommitteeapprove)>Approved</button>
                                             <button type="button" class="btn btn-danger btn-block" v-on:click="committeeReject()" @(stsbtncommitteereject)>Reject</button>
                                             <button type="button" class="btn btn-secondary btn-block" v-on:click="committeeCancel()" @(stsbtncommitteecancel)>Cancel</button>
@@ -455,7 +466,7 @@
                                 <span class="year">Offer. Letter</span>
                                 <div class="timeline-content">
                                     <p class="description">
-                                        Status : <b>Agree/ Disagree</b>
+                                        Status : 
                                         <input class="form-control" id="sts" value="@(sts)" readonly />
                                     </p>
                                 </div>
