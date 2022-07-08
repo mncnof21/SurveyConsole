@@ -121,7 +121,7 @@ namespace SurveyConsole.Controllers
 
             try
             {
-                listClient = SurveyRepository.GetSurveyResultClient(HttpContext.Session.GetString("BranchCode"), page, limit, keyword);
+                listClient = SurveyRepository.GetSurveyResultClient(HttpContext.Session.GetString("BranchCode"), page, limit, (String.IsNullOrEmpty(keyword) ? null : keyword));
 
                 if (listClient.totalData > 0)
                 {

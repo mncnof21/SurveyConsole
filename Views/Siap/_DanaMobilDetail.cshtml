@@ -452,7 +452,7 @@
                                         <form id="frmcommittee">
                                             <input class="form-control" id="sts" value="@(sts)" readonly />
                                             Contract No. :<br />
-                                            <input class="form-control" id="contractno_msix" value="" @(stsbtninputcore) />
+                                            <input class="form-control" id="contractno_msix" value="" @(stsbtncommitteeapprove) />
                                             <button type="button" class="btn btn-success btn-block" v-on:click="committeeApproved()" @(stsbtncommitteeapprove)>Approved</button>
                                             <button type="button" class="btn btn-danger btn-block" v-on:click="committeeReject()" @(stsbtncommitteereject)>Reject</button>
                                             <button type="button" class="btn btn-secondary btn-block" v-on:click="committeeCancel()" @(stsbtncommitteecancel)>Cancel</button>

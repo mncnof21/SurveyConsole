@@ -201,7 +201,9 @@ namespace SurveyConsole.Repositories
 
         public static Responses.HttpResponse GetSurveyResultClient(string ccode, int page = 1, int limit = 10, string keyword = null)
         {
-            //var data = db.SurveyresultClients.AsQueryable();
+
+            //var queryresult = db.SurveyresultClients.Join(db.Tasklists, src => src.Taskid, tl => tl.Id, (src, tl) => new { src, tl }).Join(db.UserTasks, combi => combi.tl.Id, ut => ut.TaskId)
+
             var query = from sc in db.Set<SurveyresultClient>()
                         from tl in db.Set<Tasklist>().Where(tl => sc.Taskid == tl.Id)
                         from ut in db.Set<UserTask>().Where(ut => tl.Id == ut.TaskId)

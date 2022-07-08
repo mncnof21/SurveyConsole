@@ -37,7 +37,7 @@ namespace SurveyConsole.Controllers
             _config.Bind(_appSettings);
             _facedb = facedb;
             _hostingEnvironment = hostingEnvironment;
-            _siapRepository = new SiapRepository(_facedb, hostingEnvironment);
+            _siapRepository = new SiapRepository(_facedb);
         }
 
         // GET: SiapController

@@ -11,12 +11,10 @@ namespace SurveyConsole.Repositories
     public class SiapRepository
     {
         private FACEDBContext _facedb;
-        private IWebHostEnvironment _hostingEnvironment;
 
-        public SiapRepository(FACEDBContext facedb, IWebHostEnvironment hostingEnvironment)
+        public SiapRepository(FACEDBContext facedb)
         {
             _facedb = facedb;
-            _hostingEnvironment = hostingEnvironment;
         }
 
         public HttpResponse GetDanaRumahPaginate(int page = 1, int limit = 10, string keyowrd = null)
