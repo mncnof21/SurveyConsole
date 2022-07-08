@@ -241,7 +241,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danamobil/status", httpContent))
                     {
@@ -297,7 +297,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danamobil/status", httpContent))
                     {
@@ -385,7 +385,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr).Replace("[","").Replace("]",""));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danamobil/status", httpContent))
                     {
@@ -441,7 +441,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danamobil/status", httpContent))
                     {
@@ -496,7 +496,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danamobil/status", httpContent))
                     {
@@ -551,7 +551,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danamobil/status", httpContent))
                     {
@@ -606,7 +606,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danamobil/status", httpContent))
                     {
@@ -661,7 +661,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danamobil/status", httpContent))
                     {
@@ -716,7 +716,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -772,7 +772,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -827,7 +827,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -882,7 +882,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -937,7 +937,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -992,7 +992,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -1103,7 +1103,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr).Replace("[", "").Replace("]", ""));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -1158,7 +1158,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -1213,7 +1213,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -1268,7 +1268,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -1323,7 +1323,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -1378,7 +1378,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -1433,7 +1433,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -1488,7 +1488,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
                     {
@@ -1542,7 +1542,7 @@ namespace SurveyConsole.Controllers
                     var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
 
                     using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danamobil/status", httpContent))
                     {
