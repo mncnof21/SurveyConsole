@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 
 #nullable disable
 
@@ -16,7 +15,7 @@ namespace SurveyConsole.Models.Survdbpgsql
         public Guid Id { get; set; }
         public string Pertanyaan { get; set; }
         public int QuestionTypeFlag { get; set; }
-        public BitArray Isactive { get; set; }
+        public int Isactive { get; set; }
         public DateTime? Credate { get; set; }
         public string Creby { get; set; }
         public DateTime? Moddate { get; set; }

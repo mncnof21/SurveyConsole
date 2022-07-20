@@ -1523,7 +1523,7 @@ namespace SurveyConsole.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> RejectDanaMobil([FromBody] FrmUpdateStatusReq fusr)
+        public async Task<ActionResult> RejectDanaMobil([FromBody] FrmUpdateStatusAdmRejectReq fusr)
         {
             AppResponse.HttpResponse hr = new AppResponse.HttpResponse();
 
@@ -1551,10 +1551,11 @@ namespace SurveyConsole.Controllers
 
                         if (responseMessage.StatusCode != System.Net.HttpStatusCode.BadRequest)
                         {
-                            var upd = _facedb.SiapDrs.Where(a => a.SiapId == fusr.application_id).OrderByDescending(a => a.CreDate).ThenByDescending(a => a.ModDate).FirstOrDefault();
+                            var upd = _facedb.SiapDms.Where(a => a.SiapId == fusr.application_id).OrderByDescending(a => a.CreDate).ThenByDescending(a => a.ModDate).FirstOrDefault();
                             if (upd != null)
                             {
                                 upd.MfinState = fusr.status;
+                                upd.ReasonReject = fusr.reason;
                                 _facedb.SaveChanges();
                                 hr.statuscode = 200;
                                 hr.message = "Update Status (" + fusr.status + ") berhasil disimpan!";

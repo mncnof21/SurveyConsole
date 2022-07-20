@@ -41,7 +41,7 @@ namespace SurveyConsole.Models.FACEDB
         public virtual DbSet<TapplCStatusLog> TapplCStatusLogs { get; set; }
         public virtual DbSet<TvalidationCollateral> TvalidationCollaterals { get; set; }
         public virtual DbSet<TvalidationCollateralIdnumber> TvalidationCollateralIdnumbers { get; set; }
-        public virtual DbSet<TvalidationCollateralPhysical> TvalidationCollateralPhysicals { get; set; }
+        public virtual DbSet<TvalidationCollateralPhysical> TvalidationCollateralPhysicals { get; set; }        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -70,7 +70,10 @@ namespace SurveyConsole.Models.FACEDB
 
                 entity.ToView("DM_VALIDATION_COLL_VIEW");
 
-                entity.Property(e => e.ApplId).HasColumnName("APPL_ID");
+                entity.Property(e => e.ApplId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APPL_ID");
 
                 entity.Property(e => e.ApplicationStatus)
                     .HasMaxLength(50)
@@ -121,6 +124,7 @@ namespace SurveyConsole.Models.FACEDB
                     .HasColumnName("car_year");
 
                 entity.Property(e => e.CollArrivedBase)
+                    .HasMaxLength(250)
                     .IsUnicode(false)
                     .HasColumnName("coll_arrived_base");
 
@@ -405,6 +409,11 @@ namespace SurveyConsole.Models.FACEDB
                     .HasMaxLength(50)
                     .HasColumnName("product_name");
 
+                entity.Property(e => e.ReasonReject)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasColumnName("reason_reject");
+
                 entity.Property(e => e.ReasonResult)
                     .IsUnicode(false)
                     .HasColumnName("REASON_RESULT");
@@ -420,7 +429,10 @@ namespace SurveyConsole.Models.FACEDB
                     .HasMaxLength(200)
                     .HasColumnName("selfie_with_ktp_photo");
 
-                entity.Property(e => e.SiapId).HasColumnName("siap_id");
+                entity.Property(e => e.SiapId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("siap_id");
 
                 entity.Property(e => e.Source)
                     .HasMaxLength(50)
@@ -1255,7 +1267,7 @@ namespace SurveyConsole.Models.FACEDB
                     .HasColumnName("MODDATE");
 
                 entity.Property(e => e.Password)
-                    .HasMaxLength(50)
+                    .HasMaxLength(250)
                     .IsUnicode(false)
                     .HasColumnName("PASSWORD");
 
@@ -1450,6 +1462,7 @@ namespace SurveyConsole.Models.FACEDB
                     .HasColumnName("car_year");
 
                 entity.Property(e => e.CollArrivedBase)
+                    .HasMaxLength(250)
                     .IsUnicode(false)
                     .HasColumnName("coll_arrived_base");
 
@@ -1731,6 +1744,11 @@ namespace SurveyConsole.Models.FACEDB
                 entity.Property(e => e.ProductName)
                     .HasMaxLength(50)
                     .HasColumnName("product_name");
+
+                entity.Property(e => e.ReasonReject)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasColumnName("reason_reject");
 
                 entity.Property(e => e.SelfieWithKtpPhoto)
                     .HasMaxLength(200)

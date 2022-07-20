@@ -35,9 +35,6 @@ namespace SurveyConsole.Models.Survdbpgsql
         public virtual DbSet<SurveyresultUpload> SurveyresultUploads { get; set; }
         public virtual DbSet<TapplCust> TapplCusts { get; set; }
         public virtual DbSet<Tasklist> Tasklists { get; set; }
-        public virtual DbSet<TvalidationCollateral> TvalidationCollaterals { get; set; }
-        public virtual DbSet<TvalidationCollateralIdnumber> TvalidationCollateralIdnumbers { get; set; }
-        public virtual DbSet<TvalidationCollateralPhysical> TvalidationCollateralPhysicals { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserAuth> UserAuths { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
@@ -46,8 +43,7 @@ namespace SurveyConsole.Models.Survdbpgsql
         public virtual DbSet<VwQuisioner> VwQuisioners { get; set; }
         public virtual DbSet<VwResultQuisioner> VwResultQuisioners { get; set; }
         public virtual DbSet<VwResultUpload> VwResultUploads { get; set; }
-        public virtual DbSet<VwUser> VwUsers { get; set; }
-        
+        public virtual DbSet<VwUser> VwUsers { get; set; }        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -352,10 +348,7 @@ namespace SurveyConsole.Models.Survdbpgsql
                     .HasColumnName("CREDATE")
                     .HasDefaultValueSql("now()");
 
-                entity.Property(e => e.Isactive)
-                    .IsRequired()
-                    .HasColumnType("bit(1)")
-                    .HasColumnName("ISACTIVE");
+                entity.Property(e => e.Isactive).HasColumnName("ISACTIVE");
 
                 entity.Property(e => e.Mandatory).HasColumnName("MANDATORY");
 
@@ -403,10 +396,7 @@ namespace SurveyConsole.Models.Survdbpgsql
 
                 entity.Property(e => e.Idquisioner).HasColumnName("IDQUISIONER");
 
-                entity.Property(e => e.Isactive)
-                    .IsRequired()
-                    .HasColumnType("bit(1)")
-                    .HasColumnName("ISACTIVE");
+                entity.Property(e => e.Isactive).HasColumnName("ISACTIVE");
 
                 entity.Property(e => e.Modby)
                     .HasMaxLength(255)
@@ -520,10 +510,7 @@ namespace SurveyConsole.Models.Survdbpgsql
                     .HasMaxLength(2000)
                     .HasColumnName("DESC");
 
-                entity.Property(e => e.Isactive)
-                    .IsRequired()
-                    .HasColumnType("bit(1)")
-                    .HasColumnName("ISACTIVE");
+                entity.Property(e => e.Isactive).HasColumnName("ISACTIVE");
 
                 entity.Property(e => e.Modby)
                     .HasMaxLength(255)
@@ -590,9 +577,7 @@ namespace SurveyConsole.Models.Survdbpgsql
                     .HasColumnName("ID")
                     .HasDefaultValueSql("gen_random_uuid()");
 
-                entity.Property(e => e.Alamat)
-                    .HasMaxLength(5000)
-                    .HasColumnName("ALAMAT");
+                entity.Property(e => e.Alamat).HasColumnName("ALAMAT");
 
                 entity.Property(e => e.Ao)
                     .HasMaxLength(255)
@@ -894,9 +879,7 @@ namespace SurveyConsole.Models.Survdbpgsql
                     .HasColumnName("ID")
                     .HasDefaultValueSql("gen_random_uuid()");
 
-                entity.Property(e => e.Alamat)
-                    .HasMaxLength(5000)
-                    .HasColumnName("ALAMAT");
+                entity.Property(e => e.Alamat).HasColumnName("ALAMAT");
 
                 entity.Property(e => e.Ccode)
                     .HasMaxLength(5)
@@ -914,7 +897,7 @@ namespace SurveyConsole.Models.Survdbpgsql
                 entity.Property(e => e.IsPush).HasColumnName("IS_PUSH");
 
                 entity.Property(e => e.ItrackApplid)
-                    .HasMaxLength(500)
+                    .HasMaxLength(100)
                     .HasColumnName("ITRACK_APPLID");
 
                 entity.Property(e => e.Modby)
@@ -943,125 +926,8 @@ namespace SurveyConsole.Models.Survdbpgsql
                     .HasColumnName("NOTELP");
 
                 entity.Property(e => e.SiapApplid)
-                    .HasMaxLength(2500)
+                    .HasMaxLength(100)
                     .HasColumnName("SIAP_APPLID");
-            });
-
-            modelBuilder.Entity<TvalidationCollateral>(entity =>
-            {
-                entity.ToTable("TVALIDATION_COLLATERAL");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID");
-
-                entity.Property(e => e.ApplId)
-                    .HasMaxLength(100)
-                    .HasColumnName("APPL_ID");
-
-                entity.Property(e => e.Creby)
-                    .HasMaxLength(100)
-                    .HasColumnName("CREBY");
-
-                entity.Property(e => e.Credate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("CREDATE");
-
-                entity.Property(e => e.CustName)
-                    .HasMaxLength(255)
-                    .HasColumnName("CUST_NAME");
-
-                entity.Property(e => e.Modby)
-                    .HasMaxLength(100)
-                    .HasColumnName("MODBY");
-
-                entity.Property(e => e.Moddate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("MODDATE");
-
-                entity.Property(e => e.Nopol)
-                    .HasMaxLength(50)
-                    .HasColumnName("NOPOL");
-
-                entity.Property(e => e.ReasonResult).HasColumnName("REASON_RESULT");
-
-                entity.Property(e => e.RecommendationResult).HasColumnName("RECOMMENDATION_RESULT");
-
-                entity.Property(e => e.ResiNumber)
-                    .HasMaxLength(100)
-                    .HasColumnName("RESI_NUMBER");
-            });
-
-            modelBuilder.Entity<TvalidationCollateralIdnumber>(entity =>
-            {
-                entity.ToTable("TVALIDATION_COLLATERAL_IDNUMBER");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID");
-
-                entity.Property(e => e.CheckValue)
-                    .HasMaxLength(255)
-                    .HasColumnName("CHECK_VALUE");
-
-                entity.Property(e => e.Creby)
-                    .HasMaxLength(100)
-                    .HasColumnName("CREBY");
-
-                entity.Property(e => e.Credate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("CREDATE");
-
-                entity.Property(e => e.IdcheckIdnumber)
-                    .HasMaxLength(255)
-                    .HasColumnName("IDCHECK_IDNUMBER");
-
-                entity.Property(e => e.IdvalidationCollateral).HasColumnName("IDVALIDATION_COLLATERAL");
-
-                entity.Property(e => e.IsValid).HasColumnName("IS_VALID");
-
-                entity.Property(e => e.Modby)
-                    .HasMaxLength(100)
-                    .HasColumnName("MODBY");
-
-                entity.Property(e => e.Moddate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("MODDATE");
-            });
-
-            modelBuilder.Entity<TvalidationCollateralPhysical>(entity =>
-            {
-                entity.ToTable("TVALIDATION_COLLATERAL_PHYSICAL");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("ID");
-
-                entity.Property(e => e.Creby)
-                    .HasMaxLength(100)
-                    .HasColumnName("CREBY");
-
-                entity.Property(e => e.Credate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("CREDATE");
-
-                entity.Property(e => e.IdcheckPhysical)
-                    .HasMaxLength(255)
-                    .HasColumnName("IDCHECK_PHYSICAL");
-
-                entity.Property(e => e.IdvalidationCollateral).HasColumnName("IDVALIDATION_COLLATERAL");
-
-                entity.Property(e => e.IsValid).HasColumnName("IS_VALID");
-
-                entity.Property(e => e.Modby)
-                    .HasMaxLength(100)
-                    .HasColumnName("MODBY");
-
-                entity.Property(e => e.Moddate)
-                    .HasColumnType("timestamp with time zone")
-                    .HasColumnName("MODDATE");
-
-                entity.Property(e => e.Reason).HasColumnName("REASON");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -1115,7 +981,7 @@ namespace SurveyConsole.Models.Survdbpgsql
                     .HasDefaultValueSql("0");
 
                 entity.Property(e => e.Authtoken)
-                    .HasMaxLength(5000)
+                    .HasMaxLength(1000)
                     .HasColumnName("AUTHTOKEN");
 
                 entity.Property(e => e.AuthtokenExpire)
@@ -1136,11 +1002,11 @@ namespace SurveyConsole.Models.Survdbpgsql
                     .HasDefaultValueSql("now()");
 
                 entity.Property(e => e.Firebasetoken)
-                    .HasMaxLength(5000)
+                    .HasMaxLength(1000)
                     .HasColumnName("FIREBASETOKEN");
 
                 entity.Property(e => e.Forgottoken)
-                    .HasMaxLength(5000)
+                    .HasMaxLength(1000)
                     .HasColumnName("FORGOTTOKEN");
 
                 entity.Property(e => e.ForgottokenExpire)
@@ -1171,7 +1037,7 @@ namespace SurveyConsole.Models.Survdbpgsql
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(2500)
+                    .HasMaxLength(1000)
                     .HasColumnName("PASSWORD");
 
                 entity.HasOne(d => d.NikNavigation)
@@ -1453,7 +1319,7 @@ namespace SurveyConsole.Models.Survdbpgsql
                 entity.Property(e => e.Attempt).HasColumnName("ATTEMPT");
 
                 entity.Property(e => e.Authtoken)
-                    .HasMaxLength(5000)
+                    .HasMaxLength(1000)
                     .HasColumnName("AUTHTOKEN");
 
                 entity.Property(e => e.AuthtokenExpire)
@@ -1469,11 +1335,11 @@ namespace SurveyConsole.Models.Survdbpgsql
                     .HasColumnName("C_CODE");
 
                 entity.Property(e => e.Firebasetoken)
-                    .HasMaxLength(5000)
+                    .HasMaxLength(1000)
                     .HasColumnName("FIREBASETOKEN");
 
                 entity.Property(e => e.Forgottoken)
-                    .HasMaxLength(5000)
+                    .HasMaxLength(1000)
                     .HasColumnName("FORGOTTOKEN");
 
                 entity.Property(e => e.GroupCode)
@@ -1493,7 +1359,7 @@ namespace SurveyConsole.Models.Survdbpgsql
                     .HasColumnName("NIK");
 
                 entity.Property(e => e.Password)
-                    .HasMaxLength(2500)
+                    .HasMaxLength(1000)
                     .HasColumnName("PASSWORD");
             });
 

@@ -8,7 +8,7 @@ namespace SurveyConsole.Models.FACEDB
     public partial class DmValidationCollView
     {
         public long EntryId { get; set; }
-        public long? SiapId { get; set; }
+        public string SiapId { get; set; }
         public string ContractNo { get; set; }
         public string ProductName { get; set; }
         public string DomCode { get; set; }
@@ -93,6 +93,7 @@ namespace SurveyConsole.Models.FACEDB
         public string BankAccountName { get; set; }
         public string Source { get; set; }
         public string MfinState { get; set; }
+        public string ReasonReject { get; set; }
         public string CollateralAssignto { get; set; }
         public string DigisignFile { get; set; }
         public string CreBy { get; set; }
@@ -101,7 +102,7 @@ namespace SurveyConsole.Models.FACEDB
         public string ModBy { get; set; }
         public DateTime? ModDate { get; set; }
         public string ModIp { get; set; }
-        public long? ApplId { get; set; }
+        public string ApplId { get; set; }
         public string ResiNumber { get; set; }
         public int? RecommendationResult { get; set; }
         public string ReasonResult { get; set; }
