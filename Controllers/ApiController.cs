@@ -320,13 +320,13 @@ namespace SurveyConsole.Controllers
                 }
                 else
                 {
-                    statusCode = 404;
+                    //statusCode = 404;
                     HttpContext.Response.StatusCode = statusCode;
                     return Json(new
                     {
                         status = statusCode,
                         message = "Data tidak ditemukan!",
-                        data = new List<object>().ToArray()
+                        data = listTaskHistory
                     });
                 }
             }
