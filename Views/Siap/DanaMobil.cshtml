@@ -33,6 +33,18 @@
             }
         });
     </script>
+
+    <script>
+        function formatDate(date) {
+            date = new Date(date);
+
+            var day = ('0' + date.getDate()).slice(-2);
+            var month = ('0' + (date.getMonth() + 1)).slice(-2);
+            var year = date.getFullYear();
+
+            return year + '-' + month + '-' + day;
+        }
+    </script>
 }
 
 <div id="app">
@@ -87,6 +99,7 @@
                                         <thead>
                                             <tr>
                                                 <th>App ID</th>
+                                                <th>Tanggal</th>
                                                 <th>Nama Client</th>
                                                 <th>No Ktp</th>
                                                 <th>No Polisi</th>
@@ -99,6 +112,7 @@
                                             <template v-for="(item, index) in listSiap">
                                                 <tr>
                                                     <td>{{ item.siapId }}</td>
+                                                    <td>{{ new Date(item.creDate).toLocaleString() }}</td>
                                                     <td>{{ item.fullName }}</td>
                                                     <td>{{ item.nikNumber }}</td>
                                                     <td>{{ item.carRegistrationNumber }}</td>

@@ -70,6 +70,7 @@
                                         <thead>
                                             <tr>
                                                 <th>App ID</th>
+                                                <th>Tanggal</th>
                                                 <th>Nama Client</th>
                                                 <th>No Ktp</th>
                                                 <th>Telepon</th>
@@ -81,6 +82,7 @@
                                             <template v-for="(item, index) in listSiap">
                                                 <tr>
                                                     <td>{{ item.siapId }}</td>
+                                                    <td>{{ new Date(item.creDate).toLocaleString() }}</td>
                                                     <td>{{ item.fullName }}</td>
                                                     <td>{{ item.nikNumber }}</td>
                                                     <td>{{ item.phoneNumber }}</td>

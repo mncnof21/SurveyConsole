@@ -27,7 +27,7 @@ namespace SurveyConsole.Repositories
             // Filter
             if (!String.IsNullOrEmpty(keyowrd))
             {
-                data = data.Where(a => a.FullName.Contains(keyowrd) || a.DomAddress.Contains(keyowrd) || a.AstAddress.Contains(keyowrd) || a.PhoneNumber.Contains(keyowrd) || a.NikNumber.Contains(keyowrd)).AsQueryable();
+                data = data.Where(a => a.SiapId.Contains(keyowrd) || a.CreDate.ToString().Contains(keyowrd) || a.FullName.Contains(keyowrd) || a.DomAddress.Contains(keyowrd) || a.AstAddress.Contains(keyowrd) || a.MfinState.Contains(keyowrd) || a.PhoneNumber.Contains(keyowrd) || a.NikNumber.Contains(keyowrd)).AsQueryable();
                 totalData = data.Count();
             }
 
@@ -61,7 +61,7 @@ namespace SurveyConsole.Repositories
             // Filter
             if (!String.IsNullOrEmpty(keyowrd))
             {
-                data = data.Where(a => a.FullName.Contains(keyowrd) || a.DomAddress.Contains(keyowrd) || a.CarRegistrationNumber.Contains(keyowrd) || a.PhoneNumber.Contains(keyowrd) || a.MfinState.Contains(keyowrd) || a.NikNumber.Contains(keyowrd)).AsQueryable();
+                data = data.Where(a => a.SiapId.Contains(keyowrd) || a.CreDate.ToString().Contains(keyowrd) || a.FullName.Contains(keyowrd) || a.DomAddress.Contains(keyowrd) || a.CarRegistrationNumber.Contains(keyowrd) || a.PhoneNumber.Contains(keyowrd) || a.MfinState.Contains(keyowrd) || a.NikNumber.Contains(keyowrd)).AsQueryable();
                 totalData = data.Count();
             }
 
