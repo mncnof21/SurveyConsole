@@ -19,7 +19,7 @@ namespace SurveyConsole.Repositories
 
         public HttpResponse GetDanaRumahPaginate(int page = 1, int limit = 10, string keyowrd = null)
         {
-            var data = _facedb.SiapDrs.AsQueryable();
+            var data = _facedb.SiapDrs.Where(a => a.CreDate >= DateTime.Parse("2022-08-17")).AsQueryable();
 
             int offset = (page * limit) - limit;
             int totalData = data.Count();
@@ -53,7 +53,7 @@ namespace SurveyConsole.Repositories
 
         public HttpResponse GetDanaMobilPaginate(int page = 1, int limit = 10, string keyowrd = null)
         {
-            var data = _facedb.SiapDms.AsQueryable();
+            var data = _facedb.SiapDms.Where(a => a.CreDate >= DateTime.Parse("2022-08-17")).AsQueryable();
 
             int offset = (page * limit) - limit;
             int totalData = data.Count();
