@@ -26,14 +26,14 @@ namespace SurveyConsole.Repositories
 
         public Responses.HttpResponse GetApplPaginate(string cCode, int page = 1, int limit = 10, string keyowrd = null)
         {
-            var data = _survDB.Tasklists.AsQueryable();
+            var data = _survDB.Tasklists.Where(a => a.Credate >= DateTime.Parse("2022-08-17")).AsQueryable();
             if(cCode == "000")
             {
-                data = _survDB.Tasklists.AsQueryable();
+                data = _survDB.Tasklists.Where(a => a.Credate >= DateTime.Parse("2022-08-17")).AsQueryable();
             }
             else
             {
-                data = _survDB.Tasklists.AsQueryable().Where(a => a.Ccode == cCode);
+                data = _survDB.Tasklists.AsQueryable().Where(a => a.Ccode == cCode && a.Credate >= DateTime.Parse("2022-08-17"));
             }
 
             int offset = (page * limit) - limit;

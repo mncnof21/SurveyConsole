@@ -506,6 +506,7 @@
 
   <ItemGroup>
     <Folder Include=".vs\SurveyConsole\v16\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
 
   <ItemGroup>
