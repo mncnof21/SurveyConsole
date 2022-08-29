@@ -174,35 +174,42 @@ namespace SurveyConsole.Controllers
             List<ValidationError> validationErrors = fusr.Validate();
 
             if (validationErrors == null || validationErrors.Count <= 0)
-            {                
+            {
                 //using (var client = new HttpClient())
                 //{
-                    // auth
-                    //var byteArray = Encoding.ASCII.GetBytes("mfin_callback:fwzcuXn4ZVQmMpUQ4gvGxc6KW7xFfWxZ");
-                    //var header = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-                    //client.DefaultRequestHeaders.Authorization = header;
+                // auth
+                //var byteArray = Encoding.ASCII.GetBytes("mfin_callback:fwzcuXn4ZVQmMpUQ4gvGxc6KW7xFfWxZ");
+                //var header = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                //client.DefaultRequestHeaders.Authorization = header;
 
-                    //// content data
-                    //var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
-                    //StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                //// content data
+                //var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
+                //StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                    //client.BaseAddress = new Uri("https://api.motioncredit.id/");
+                //client.BaseAddress = new Uri("https://api.motioncredit.id/");
 
-                    //using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danamobil/status", httpContent))
-                    //{
-                    //    var responseContent = responseMessage.Content.ReadAsStringAsync().Result;
-                    //    responseMessage.EnsureSuccessStatusCode();
+                //using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danamobil/status", httpContent))
+                //{
+                //    var responseContent = responseMessage.Content.ReadAsStringAsync().Result;
+                //    responseMessage.EnsureSuccessStatusCode();
 
-                    //    if(responseMessage.StatusCode != System.Net.HttpStatusCode.BadRequest)
-                    //    {
-                            var upd = _facedb.SiapDms.Where(a => a.SiapId == fusr.application_id).OrderByDescending(a => a.CreDate).ThenByDescending(a => a.ModDate).FirstOrDefault();
-                            if (upd != null)
-                            {
-                                upd.MfinState = fusr.status;
-                                _facedb.SaveChanges();
-                                hr.statuscode = 200;
-                                hr.message = "Update Status (" + fusr.status + ") berhasil disimpan!";
-                            }
+                //    if(responseMessage.StatusCode != System.Net.HttpStatusCode.BadRequest)
+                //    {
+
+                DBUtils db = new DBUtils(_facedb);
+                string query = "exec DIGI_TO_ITRACK '"+ fusr.application_id + "','"+ HttpContext.Session.GetString("User") +"'";
+
+                if (db.ExecuteNonQuery(query) == true)
+                {
+                    var upd = _facedb.SiapDms.Where(a => a.SiapId == fusr.application_id).OrderByDescending(a => a.CreDate).ThenByDescending(a => a.ModDate).FirstOrDefault();
+                    if (upd != null)
+                    {
+                        upd.MfinState = fusr.status;
+                        _facedb.SaveChanges();
+                        hr.statuscode = 200;
+                        hr.message = "Update Status (" + fusr.status + ") berhasil disimpan!";
+                    }
+                }                            
                     //    }
                     //}                                                                                                                                                                               
                 //}                             

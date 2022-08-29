@@ -17,7 +17,7 @@ namespace SurveyConsole.Repositories
         public ApplRepository(survdbContext survDB)
         {
             _survDB = survDB;
-        }
+        }        
 
         public int CountAllAppl()
         {
@@ -81,7 +81,7 @@ namespace SurveyConsole.Repositories
             tl.Ccode = cCode;
 
             _survDB.Tasklists.Add(tl);
-            Boolean result_tl = _survDB.SaveChanges() > 0;
+            Boolean result_tl = _survDB.SaveChanges() > 0;            
 
             _survDB.Dispose();
             return result_tl;
