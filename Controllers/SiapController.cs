@@ -1584,6 +1584,61 @@ namespace SurveyConsole.Controllers
             return Content(JsonConvert.SerializeObject(hr), "application/json");
         }
 
+        [HttpPost]
+        public async Task<ActionResult> RejectDanaRumah([FromBody] FrmUpdateStatusAdmRejectReq fusr)
+        {
+            AppResponse.HttpResponse hr = new AppResponse.HttpResponse();
+
+            List<ValidationError> validationErrors = fusr.Validate();
+
+            if (validationErrors == null || validationErrors.Count <= 0)
+            {
+                using (var client = new HttpClient())
+                {
+                    // auth
+                    var byteArray = Encoding.ASCII.GetBytes("mfin_callback:fwzcuXn4ZVQmMpUQ4gvGxc6KW7xFfWxZ");
+                    var header = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                    client.DefaultRequestHeaders.Authorization = header;
+
+                    // content data
+                    var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
+                    StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                    client.BaseAddress = new Uri(_config["MotionUrl"]);
+
+                    using (HttpResponseMessage responseMessage = await client.PostAsync("callback/mfin/danarumah/status", httpContent))
+                    {
+                        var responseContent = responseMessage.Content.ReadAsStringAsync().Result;
+                        responseMessage.EnsureSuccessStatusCode();
+
+                        if (responseMessage.StatusCode != System.Net.HttpStatusCode.BadRequest)
+                        {
+                            var upd = _facedb.SiapDrs.Where(a => a.SiapId == fusr.application_id).OrderByDescending(a => a.CreDate).ThenByDescending(a => a.ModDate).FirstOrDefault();
+                            if (upd != null)
+                            {
+                                upd.MfinState = fusr.status;
+                                upd.ReasonReject = fusr.reason;
+                                _facedb.SaveChanges();
+                                hr.statuscode = 200;
+                                hr.message = "Update Status (" + fusr.status + ") berhasil disimpan!";
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                hr.statuscode = 400;
+                hr.message = "Data tidak valid!";
+                hr.errors = validationErrors;
+            }
+
+            _facedb.Dispose();
+
+            HttpContext.Response.StatusCode = hr.statuscode;
+            return Content(JsonConvert.SerializeObject(hr), "application/json");
+        }
+
         protected override void Dispose(bool disposing)
         {
             _facedb.Dispose();

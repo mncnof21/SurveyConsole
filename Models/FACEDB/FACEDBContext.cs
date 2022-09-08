@@ -2132,6 +2132,11 @@ namespace SurveyConsole.Models.FACEDB
                     .HasMaxLength(50)
                     .HasColumnName("product_name");
 
+                entity.Property(e => e.ReasonReject)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasColumnName("reason_reject");
+
                 entity.Property(e => e.SelfieWithKtpPhoto)
                     .HasMaxLength(200)
                     .HasColumnName("selfie_with_ktp_photo");

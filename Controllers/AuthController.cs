@@ -8,9 +8,10 @@ using SurveyConsole.Models.Survdbpgsql;
 using SurveyConsole.Requests;
 using System;
 using System.Collections.Generic;
-using SurveyConsole.Repositories;
+using AppResponse = SurveyConsole.Responses;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace SurveyConsole.Controllers
 {
@@ -44,6 +45,52 @@ namespace SurveyConsole.Controllers
         public IActionResult Index()
         {
             return RedirectToAction("Login", "Auth");
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SubmitChangePassword([FromBody] FrmChangePasswordReq fcpr)
+        {
+            AppResponse.HttpResponse hr = new AppResponse.HttpResponse();
+
+            List<ValidationError> validationErrors = fcpr.Validate();
+
+            if (validationErrors == null || validationErrors.Count <= 0)
+            {                
+                if(fcpr.password != fcpr.confirmpassword)
+                {
+                    hr.statuscode = 400;
+                    hr.message = "The password confirmation does not match!";
+                }
+                else
+                {
+                    string confirmpass = BCrypt.Net.BCrypt.HashPassword(fcpr.password);
+                    var upd = _survDB.UserAuths.Where(a => a.Nik == HttpContext.Session.GetString("User")).FirstOrDefault();
+                    if (upd != null)
+                    {
+                        upd.Password = confirmpass;
+                        _survDB.SaveChanges();
+                        hr.statuscode = 200;
+                        hr.message = "Password changed successfully.";
+                    }
+                }
+            }
+            else
+            {
+                hr.statuscode = 400;
+                hr.message = "Data tidak valid!";
+                hr.errors = validationErrors;
+            }
+
+            _survDB.Dispose();
+
+            HttpContext.Response.StatusCode = hr.statuscode;
+            return Content(JsonConvert.SerializeObject(hr), "application/json");
         }
 
         [HttpGet]

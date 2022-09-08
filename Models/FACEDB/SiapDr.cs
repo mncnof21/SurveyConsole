@@ -93,6 +93,7 @@ namespace SurveyConsole.Models.FACEDB
         public string BankAccountName { get; set; }
         public string Source { get; set; }
         public string MfinState { get; set; }
+        public string ReasonReject { get; set; }
         public string CollateralAssignto { get; set; }
         public string DigisignFile { get; set; }
         public string CreBy { get; set; }

@@ -37,7 +37,7 @@ namespace SurveyConsole.Controllers
         public IActionResult Login()
         {
             return View();
-        }        
+        }                
 
         public ActionResult GetBranch(string value)
         {
