@@ -209,7 +209,7 @@
                     <div class="col-md-12">
                         <div class="form">
                             <div class="form-group row">
-                                <label for="siapid" class="col-sm-4 col-form-label">Siap ID</label>
+                                <label for="siapid" class="col-sm-4 col-form-label">Motion ID</label>
                                 <div class="col-sm-8">
                                     <input class="form-control" id="siapid" value="@(Model.SiapId)" readonly disabled>
                                 </div>
@@ -421,9 +421,7 @@
                                             }
                                         }
                                         <form id="frminputcore">
-                                            <input class="form-control" id="sts" value="@(sts)" readonly /><br />
-                                            Contract No. :<br />
-                                            <input class="form-control" id="contractno_msix" value="" @(stsbtninputcore) />
+                                            <input class="form-control" id="sts" value="@(sts)" readonly /><br />                                            
                                             <button type="button" class="btn btn-success btn-block" v-on:click="submitInputCoreRumah()" @(stsbtninputcore)>Submit</button>
                                         </form>
                                     </p>
@@ -442,17 +440,21 @@
                                                 stsbtncommitteeapprove = "";
                                                 stsbtncommitteereject = "";
                                                 stsbtncommitteecancel = "";
+                                                stsbtninputcore = "";
                                             }
                                             else
                                             {
                                                 stsbtncommitteeapprove = "disabled";
                                                 stsbtncommitteereject = "disabled";
                                                 stsbtncommitteecancel = "disabled";
+                                                stsbtninputcore = "disabled";
                                             }
                                         }
                                         <br />
                                         <form id="frmcommittee">
                                             <input class="form-control" id="sts" value="@(sts)" readonly /><br />
+                                            Contract No. :<br />
+                                            <input class="form-control" id="contractno_msix" value="@(Model.ContractNo)" @(stsbtninputcore) />
                                             <button type="button" class="btn btn-success btn-block" v-on:click="committeeApprovedRumah()" @(stsbtncommitteeapprove)>Approved</button>
                                             <button type="button" class="btn btn-danger btn-block" v-on:click="committeeRejectRumah()" @(stsbtncommitteereject)>Reject</button>
                                             <button type="button" class="btn btn-secondary btn-block" v-on:click="committeeCancelRumah()" @(stsbtncommitteecancel)>Cancel</button>

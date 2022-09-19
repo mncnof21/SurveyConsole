@@ -141,7 +141,7 @@ namespace SurveyConsole.Controllers
                     return RedirectToAction("DanaMobil", "Siap");
                 }
 
-                ViewData["title"] = "Siap Dana Mobil Detail";
+                ViewData["title"] = "Motion Credit Dana Mobil Detail";
                 ViewData["module"] = type;
                 ViewData["content"] = "~/Views/Siap/_DanaMobilDetail.cshtml";
                 ViewBag.detail = data;
@@ -155,7 +155,7 @@ namespace SurveyConsole.Controllers
                     return RedirectToAction("DanaRumah", "Siap");
                 }
 
-                ViewData["title"] = "Siap Dana Rumah Detail";
+                ViewData["title"] = "Motion Credit Dana Rumah Detail";
                 ViewData["module"] = type;
                 ViewData["content"] = "~/Views/Siap/_DanaRumahDetail.cshtml";
                 ViewBag.detail = data;
@@ -1035,7 +1035,7 @@ namespace SurveyConsole.Controllers
 
         // core-submit rumah
         [HttpPost]
-        public async Task<ActionResult> SubmitCoreRumah([FromBody] FrmUpdateStatusInputCoreReq fusr)
+        public async Task<ActionResult> SubmitCoreRumah([FromBody] FrmUpdateStatusReq fusr)
         {
             AppResponse.HttpResponse hr = new AppResponse.HttpResponse();
 
@@ -1067,7 +1067,6 @@ namespace SurveyConsole.Controllers
                 if (upd != null)
                 {
                     upd.MfinState = fusr.status;
-                    upd.ContractNo = fusr.contract_number;
                     _facedb.SaveChanges();
                     hr.statuscode = 200;
                     hr.message = "Update Status (" + fusr.status + ") berhasil disimpan!";
@@ -1123,6 +1122,7 @@ namespace SurveyConsole.Controllers
                             if (upd != null)
                             {
                                 upd.MfinState = fusr.status;
+                                upd.ContractNo = fusr.contract_number;
                                 _facedb.SaveChanges();
                                 hr.statuscode = 200;
                                 hr.message = "Update Status (" + fusr.status + ") berhasil disimpan!";

@@ -23,15 +23,17 @@
         var vm = new Vue({
             el: "#app",
             data: {
-                dt: null,
-                customers: [],
-                currPage: 1,
-                totalPage: 1,
-                totalData: 0,
-                limit: 10,
-                keyword: "",
-                isLoading: !1,
-                dtobj: {}
+                //baseUrl: baseUrl,
+                //dt: null,
+                //customers: [],
+                //currPage: 1,
+                //totalPage: 1,
+                //totalData: 0,
+                //limit: 10,
+                //keyword: "",
+                //isLoading: !1,
+                //dtobj: {}
+                baseUrl: baseUrl, customers: [], currPage: 1, totalPage: 1, totalData: 0, limit: 10, keyword: "", isLoading: !1
             }, watch: {
                 limit: function (t, a) {
                     var e = parseInt(t);
@@ -62,7 +64,8 @@
                     this.Surveyor = "", jq("#AddModalPush").modal("hide")
                 },
                 loadCustomer: function (t, a, e) {
-                    this.isLoading = !0, axios({
+                    this.isLoading = !0,
+                        axios({
                         method: "get", url: baseUrl + "/Home/GetAppl/" + t + "/" + a + (null === e || "" === e ? "" : "?keyword=" + e)
                     }).then(t => {
                         this.customers = t.data.data, this.totalPage = t.data.totalPage, this.totalData = t.data.totalData
@@ -138,34 +141,7 @@
                             })
                         }).catch(t => {
                             Swal.fire("Gagal!", "Gagal menyimpan data!", "error")
-                        }) : t.submit()
-
-                    @*var latilong = document.getElementById("latlong").value;
-                    var fields = latilong.split("|");
-                    var latitude = fields[0];
-                    var longitude = fields[1];
-                    var sel = document.getElementById("surveyor");
-
-                    var t = document.getElementById("pushNotif"), a = {
-                        TaskId: document.getElementById("taskid").value,
-                        Latitude: latitude,
-                        Longitude: longitude,
-                        SurveyorNik: sel.options[sel.selectedIndex].value
-                    };
-                    a.TaskId, a.Latitude, a.Longitude, a.SurveyorNik ?
-                    axios({
-                            method: "post",
-                            url: '@Url.Action("PushNotif", "Home")',
-                            data: a
-                    }).then(t => {
-                        Swal.fire("Sukses", t.data.message, "success").then(function () {
-                            location.reload(),
-                            vm.closeModalPush()
-                        })
-                    })*@
-                    @*axios.post('@(Url.Action("SendNotification", "Home"))', a).then(t => {
-                        Swal.fire("Sukses", "Notifikasi telah terkirim!", "success")
-                    })*@
+                        }) : t.submit()                    
                 }
             }
         });

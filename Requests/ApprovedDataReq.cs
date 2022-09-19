@@ -7,11 +7,11 @@ namespace SurveyConsole.Requests
 {
     public class ApprovedDataReq
     {
-        public int approved_amount { get; set; }
-        public int approved_fee { get; set; }
-        public int approved_tenor { get; set; }
-        public int approved_installment { get; set; }
-        public int approved_disbursement { get; set; }
+        public long approved_amount { get; set; }
+        public long approved_fee { get; set; }
+        public long approved_tenor { get; set; }
+        public long approved_installment { get; set; }
+        public long approved_disbursement { get; set; }
 
         public List<ValidationError> Validate()
         {
