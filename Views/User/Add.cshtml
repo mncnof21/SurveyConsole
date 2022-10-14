@@ -1,0 +1,287 @@
+﻿@{
+    ViewData["Title"] = "Detail User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var branch = ViewBag.Branch;
+}
+
+@section Scripts{
+    <script>
+        var jq = $.noConflict();
+        var baseUrl = '@((this.Context.Request.IsHttps ? "https://" : "http://") + (this.Context.Request.Host.Value))';
+    </script>
+    <script src="~/js/vuejs/vue.js"></script>
+    <script src="~/js/axios/axios.js"></script>
+    <script src="~/js/promise-polyfill/dist/polyfill.js"></script>
+
+    <script>
+
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                baseUrl: baseUrl, userbranchs: [], currPage: 1, totalPage: 1, totalData: 0, limit: 10, keyword: "", isLoading: !1
+            }, watch: {
+                limit: function (t, a) {
+                    var e = parseInt(t);
+                    this.currPage = 1,
+                        this.loadUserBranch(this.currPage, e, this.keyword)
+                }, keyword: function (t, a) {
+                    this.currPage = 1,
+                        this.loadUserBranch(this.currPage, this.limit, this.keyword)
+                }, currPage: function (t, a) {
+                    var e = parseInt(t); this.loadUserBranch(e, this.limit, this.keyword)
+                }
+            }, beforeMount: function () {
+            }, mounted: function () {
+                this.loadUserBranch(this.currPage, this.limit, null)
+            },
+            methods: {
+                openModal: function () {
+                    jq("#AddModal").modal("show")
+                },
+                closeModal: function () {
+                    jq("#AddModal").modal("hide")
+                },
+                loadUserBranch: function (t, a, e) {
+                    this.isLoading = !0,
+                        axios({
+                            method: "get", url: baseUrl + "/User/GetUserBranch/" + t + "/" + a + (null === e || "" === e ? "" : "?keyword=" + e)
+                        }).then(t => {
+                            this.userbranchs = t.data.data, this.totalPage = t.data.totalPage, this.totalData = t.data.totalData
+                        }).catch(t => { }).then(t => { this.isLoading = !1 })
+                },
+                addUser: function () {
+                    var key = document.getElementById("nik").value;
+                    var sel = document.getElementById("branch");
+                    var sel2 = document.getElementById("groupcode");
+                    var t = document.getElementById("addMasterUserRole"), a = {
+                        Nik: document.getElementById("nik").value,
+                        Nama: document.getElementById("nama").value,
+                        Password: document.getElementById("confirmpassword").value,
+                        Ccode: sel.options[sel.selectedIndex].value,
+                        GroupCode: sel2.options[sel2.selectedIndex].value,
+                    };
+                    a.Nik ?
+                        axios({
+                            method: "post",
+                            url: '@Url.Action("AddMasterUserRole", "User")',
+                            data: a
+                        }).then(t => {
+                            if (t.data.errors == null) {
+                                Swal.fire("Sukses", t.data.message, "success").then(function () {
+                                    location.href = baseUrl + '/User/Edit/?id=' + key,
+                                    vm.closeModal()
+                                })
+                            }
+                            else {
+                                Swal.fire("Info!", t.data.message, "info")
+                            }
+                        }).catch(t => {
+                            Swal.fire("Gagal!", t.data.message, "error")
+                        }) : t.submit()
+                },
+            }
+        });
+    </script>
+
+    <script>
+        function checkNik(value) {
+            if (value != "") {
+                document.getElementById("btnaddrole").disabled = false;
+            }
+        }
+    </script>
+}
+
+<div id="app">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Master Data User</h4>
+                    </div><!--end card-header-->
+                    <div class="card-body">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="datadiri-tab" data-toggle="tab" href="#datadiri" role="tab" aria-controls="datadiri" aria-selected="true">Add User</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <br />
+                            <div class="tab-pane fade show active" id="datadiri" role="tabpanel" aria-labelledby="datadiri-tab">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form">
+                                            <div class="form-group row">
+                                                <label for="name" class="col-sm-4 col-form-label">NIK</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="nik" value="" v-model="keyword" placeholder="Masukan NIK" onchange="checkNik(this.value)" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="nik" class="col-sm-4 col-form-label">Nama</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="nama" value="" placeholder="Masukan Nama" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="ttl" class="col-sm-4 col-form-label">Password</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="password" type="password" value="" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="mothername" class="col-sm-4 col-form-label">Confirm Password</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="confirmpassword" type="password" value="" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="name" class="col-sm-4 col-form-label">Group</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="groupcode" name="groupcode">
+                                                        <option value="">-- select</option>
+                                                        <option value="ADM">Administrator</option>
+                                                        <option value="BR-BM">BR-BM</option>
+                                                        <option value="BR-MKT">BR-MKT</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="float-md-left">
+                                            <div class="form">
+                                                <div class="form-group row">
+                                                    <label for="perpage" class="col-md-6 col-sm-12 col-form-label">Per Page</label>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <select name="perpage" id="perpage" v-model="limit" class="form-control">
+                                                            <option value="10">10</option>
+                                                            <option value="25">25</option>
+                                                            <option value="50">50</option>
+                                                            <option value="100">100</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table id="datatable" class="table table-bordered" style="border-collapse: collapse; border-spacing: 0; width: 100%; overflow-x: scroll;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>User ID</th>
+                                                        <th>Name</th>
+                                                        <th>Branch</th>
+                                                        <th style="text-align: center; width:5%;"><button type="button" id="btnaddrole" class="btn btn-primary btn-block" disabled v-on:click="openModal()">Tambah</button></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblbody">
+                                                    <template v-for="(item, index) in this.userbranchs">
+                                                        <tr>
+                                                            <td>{{ item.UserId }}</td>
+                                                            <td>{{ item.Nama }}</td>
+                                                            <td>{{ item.Branch }}</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </template>
+                                                    <tr v-if="isLoading">
+                                                        <td colspan="7" style="text-align: center;"><img src="~/assets/images/spinner.gif" style="width: 48px;" /></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-md-4 justify-content-center">
+                                        <div class="form-group row justify-content-center">
+                                            <button class="btn btn-primary" v-on:click="currPage = currPage-1" :disabled="currPage <= 1">Previous</button>
+                                            &nbsp;
+                                            <select class="form-control" v-model="currPage" style="width: 15%;">
+                                                <option v-for="n in totalPage" v-bind:value="n">
+                                                    {{ n }}
+                                                </option>
+                                            </select>
+                                            &nbsp;
+                                            <button class="btn btn-primary" v-on:click="currPage = currPage+1" :disabled="currPage >= totalPage">Next</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-1">
+                                        <div class="form">
+                                            <a class="btn btn-danger btn-block" :href="baseUrl + '/User'">Back</a>                                            
+                                        </div>                                        
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end col-->
+        </div><!--end row-->
+    </div>
+
+    <div class="modal fade" id="AddModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Branch</h5>
+                    <button type="button" class="close" data-dismiss="modal" v-on:click="closeModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addMasterUserRole" method="post">
+                        <div class="form">
+                            <div class="form-group">
+                                <label for="nama">Branch</label>
+                                <select id="branch" name="branch" class="form-control">
+                                    <option value="@String.Empty">- Select Branch -</option>
+                                    @if (branch != null)
+                                    {
+                                        foreach (var item in branch)
+                                        {
+                                            <option value="@item.CCode">@item.CName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" v-on:click="addUser()">Simpan</button>
+                    <button type="button" class="btn btn-danger" v-on:click="closeModal()" data-dismiss="modal">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

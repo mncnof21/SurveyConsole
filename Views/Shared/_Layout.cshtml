@@ -14,11 +14,16 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="~/assets/images/logo-mnc.png">
 
+    <!--Form Wizard-->
+    <link rel="stylesheet" href="~/assets/plugins/jquery-steps/jquery.steps.css">
+
     <!-- DataTables -->
     <link href="~/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
     <link href="~/assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+
 
     <!-- App css -->
     <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -27,6 +32,7 @@
     <link href="~/assets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <link href="~/js/sweetalert2/sweetalert2.min.css" />
+
     @RenderSection("Styles", false)
 </head>
 
@@ -42,7 +48,7 @@
             <ul class="metismenu left-sidenav-menu">
                 <li class="menu-label mt-0">Main</li>
                 <li>
-                    <a href="javascript: void(0);"> <i data-feather="home" class="align-self-center menu-icon"></i><span>Mobile Survey</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                    <a href="javascript: void(0);"> <i data-feather="clipboard" class="align-self-center menu-icon"></i><span>Mobile Survey</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Home")"><i class="ti-control-record"></i>Data Customer</a></li>
                         <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Result")"><i class="ti-control-record"></i>Survey Result</a></li>
@@ -51,10 +57,17 @@
                 @if (Context.Session.GetString("GroupCode") == "ADM")
                 {
                     <li>
-                        <a href="javascript: void(0);"> <i data-feather="home" class="align-self-center menu-icon"></i><span>Motion Credit</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <a href="javascript: void(0);"> <i data-feather="credit-card" class="align-self-center menu-icon"></i><span>Motion Credit</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                         <ul class="nav-second-level" aria-expanded="false">
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("DanaRumah", "Siap")"><i class="ti-control-record"></i>Motion Credit - Dana Rumah</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("DanaMobil", "Siap")"><i class="ti-control-record"></i>Motion Credit - Dana Mobil</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-label mt-0">Master Data</li>
+                    <li>
+                        <a href="javascript: void(0);"> <i data-feather="database" class="align-self-center menu-icon"></i><span>Master Data</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "User")"><i class="ti-control-record"></i>Users</a></li>
                         </ul>
                     </li>
                 }
@@ -124,6 +137,9 @@
     <script src="~/assets/js/simplebar.min.js"></script>
     <script src="~/assets/js/moment.js"></script>
     <script src="~/assets/plugins/daterangepicker/daterangepicker.js"></script>
+
+    <script src="~/assets/plugins/jquery-steps/jquery.steps.min.js"></script>
+    <script src="~/assets/pages/jquery.form-wizard.init.js"></script>
 
     <!-- Required datatable js -->
     <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
