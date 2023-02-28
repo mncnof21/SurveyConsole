@@ -15,6 +15,7 @@ using SurveyConsole.Models.FACEDB;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Net.WebSockets;
 
 namespace SurveyConsole
 {
@@ -37,11 +38,12 @@ namespace SurveyConsole
             services.AddDbContext<FACEDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("FaceDB")));
 
-            services.AddSession(options => {
+            services.AddSession(options =>
+            {
                 options.IdleTimeout = TimeSpan.FromMinutes(120);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-                options.Cookie.Name = "FinToolsCookies";
+                //options.Cookie.HttpOnly = false;
+                //options.Cookie.IsEssential = true;
+                //options.Cookie.Name = "FinToolsCookies";
             });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -74,8 +76,8 @@ namespace SurveyConsole
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                //app.UseHsts();
-            }
+                // app.UseHsts();
+            }            
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -97,7 +99,7 @@ namespace SurveyConsole
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=GetAppl}/{page?}/{limit?}");
-            });
-        }
+            });            
+        }        
     }
 }

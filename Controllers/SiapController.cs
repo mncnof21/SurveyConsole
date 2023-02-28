@@ -17,7 +17,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using SurveyConsole.Libs;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace SurveyConsole.Controllers
 {
@@ -84,6 +84,171 @@ namespace SurveyConsole.Controllers
             return Json(response);
         }
 
+        public ActionResult GetListDanaRumahNew(int page, int limit)
+        {
+            int statusCode = 200;
+            String keyword = HttpContext.Request.Query["keyword"];
+            var response = new Responses.HttpResponse();
+
+            try
+            {
+                response = _siapRepository.GetDanaRumahPaginateNew(page, limit, keyword);
+
+                if (response.totalData > 0)
+                {
+                    response.statuscode = statusCode;
+                    response.message = "OK";
+                }
+                else
+                {
+                    statusCode = 404;
+                    response.statuscode = statusCode;
+                    response.message = "Not found!";
+                }
+            }
+            catch (Exception e)
+            {
+                statusCode = 500;
+                response.statuscode = statusCode;
+                response.message = (e.Message + " " + e.StackTrace);
+            }
+
+            HttpContext.Response.StatusCode = response.statuscode;
+            return Json(response);
+        }
+
+        public ActionResult GetListDanaRumahOnprogress(int page, int limit)
+        {
+            int statusCode = 200;
+            String keyword = HttpContext.Request.Query["keyword"];
+            var response = new Responses.HttpResponse();
+
+            try
+            {
+                response = _siapRepository.GetDanaRumahPaginateOnprogress(page, limit, keyword);
+
+                if (response.totalData > 0)
+                {
+                    response.statuscode = statusCode;
+                    response.message = "OK";
+                }
+                else
+                {
+                    statusCode = 404;
+                    response.statuscode = statusCode;
+                    response.message = "Not found!";
+                }
+            }
+            catch (Exception e)
+            {
+                statusCode = 500;
+                response.statuscode = statusCode;
+                response.message = (e.Message + " " + e.StackTrace);
+            }
+
+            HttpContext.Response.StatusCode = response.statuscode;
+            return Json(response);
+        }
+
+        public ActionResult GetListDanaRumahGolive(int page, int limit)
+        {
+            int statusCode = 200;
+            String keyword = HttpContext.Request.Query["keyword"];
+            var response = new Responses.HttpResponse();
+
+            try
+            {
+                response = _siapRepository.GetDanaRumahPaginateGolive(page, limit, keyword);
+
+                if (response.totalData > 0)
+                {
+                    response.statuscode = statusCode;
+                    response.message = "OK";
+                }
+                else
+                {
+                    statusCode = 404;
+                    response.statuscode = statusCode;
+                    response.message = "Not found!";
+                }
+            }
+            catch (Exception e)
+            {
+                statusCode = 500;
+                response.statuscode = statusCode;
+                response.message = (e.Message + " " + e.StackTrace);
+            }
+
+            HttpContext.Response.StatusCode = response.statuscode;
+            return Json(response);
+        }
+
+        public ActionResult GetListDanaRumahTerminate(int page, int limit)
+        {
+            int statusCode = 200;
+            String keyword = HttpContext.Request.Query["keyword"];
+            var response = new Responses.HttpResponse();
+
+            try
+            {
+                response = _siapRepository.GetDanaRumahPaginateTerminate(page, limit, keyword);
+
+                if (response.totalData > 0)
+                {
+                    response.statuscode = statusCode;
+                    response.message = "OK";
+                }
+                else
+                {
+                    statusCode = 404;
+                    response.statuscode = statusCode;
+                    response.message = "Not found!";
+                }
+            }
+            catch (Exception e)
+            {
+                statusCode = 500;
+                response.statuscode = statusCode;
+                response.message = (e.Message + " " + e.StackTrace);
+            }
+
+            HttpContext.Response.StatusCode = response.statuscode;
+            return Json(response);
+        }
+
+        public ActionResult GetListDanaRumahReject(int page, int limit)
+        {
+            int statusCode = 200;
+            String keyword = HttpContext.Request.Query["keyword"];
+            var response = new Responses.HttpResponse();
+
+            try
+            {
+                response = _siapRepository.GetDanaRumahPaginateReject(page, limit, keyword);
+
+                if (response.totalData > 0)
+                {
+                    response.statuscode = statusCode;
+                    response.message = "OK";
+                }
+                else
+                {
+                    statusCode = 404;
+                    response.statuscode = statusCode;
+                    response.message = "Not found!";
+                }
+            }
+            catch (Exception e)
+            {
+                statusCode = 500;
+                response.statuscode = statusCode;
+                response.message = (e.Message + " " + e.StackTrace);
+            }
+
+            HttpContext.Response.StatusCode = response.statuscode;
+            return Json(response);
+        }
+
         public ActionResult DanaMobil()
         {
             return View();
@@ -122,6 +287,171 @@ namespace SurveyConsole.Controllers
             return Json(response);
         }
 
+        public ActionResult GetListDanaMobilNew(int page, int limit)
+        {
+            int statusCode = 200;
+            String keyword = HttpContext.Request.Query["keyword"];
+            var response = new Responses.HttpResponse();
+
+            try
+            {
+                response = _siapRepository.GetDanaMobilPaginateNew(page, limit, keyword);
+
+                if (response.totalData > 0)
+                {
+                    response.statuscode = statusCode;
+                    response.message = "OK";
+                }
+                else
+                {
+                    statusCode = 404;
+                    response.statuscode = statusCode;
+                    response.message = "Not found!";
+                }
+            }
+            catch (Exception e)
+            {
+                statusCode = 500;
+                response.statuscode = statusCode;
+                response.message = (e.Message + " " + e.StackTrace);
+            }
+
+            HttpContext.Response.StatusCode = response.statuscode;
+            return Json(response);
+        }
+
+        public ActionResult GetListDanaMobilOnprogress(int page, int limit)
+        {
+            int statusCode = 200;
+            String keyword = HttpContext.Request.Query["keyword"];
+            var response = new Responses.HttpResponse();
+
+            try
+            {
+                response = _siapRepository.GetDanaMobilPaginateOnprogress(page, limit, keyword);
+
+                if (response.totalData > 0)
+                {
+                    response.statuscode = statusCode;
+                    response.message = "OK";
+                }
+                else
+                {
+                    statusCode = 404;
+                    response.statuscode = statusCode;
+                    response.message = "Not found!";
+                }
+            }
+            catch (Exception e)
+            {
+                statusCode = 500;
+                response.statuscode = statusCode;
+                response.message = (e.Message + " " + e.StackTrace);
+            }
+
+            HttpContext.Response.StatusCode = response.statuscode;
+            return Json(response);
+        }
+
+        public ActionResult GetListDanaMobilGolive(int page, int limit)
+        {
+            int statusCode = 200;
+            String keyword = HttpContext.Request.Query["keyword"];
+            var response = new Responses.HttpResponse();
+
+            try
+            {
+                response = _siapRepository.GetDanaMobilPaginateGolive(page, limit, keyword);
+
+                if (response.totalData > 0)
+                {
+                    response.statuscode = statusCode;
+                    response.message = "OK";
+                }
+                else
+                {
+                    statusCode = 404;
+                    response.statuscode = statusCode;
+                    response.message = "Not found!";
+                }
+            }
+            catch (Exception e)
+            {
+                statusCode = 500;
+                response.statuscode = statusCode;
+                response.message = (e.Message + " " + e.StackTrace);
+            }
+
+            HttpContext.Response.StatusCode = response.statuscode;
+            return Json(response);
+        }
+
+        public ActionResult GetListDanaMobilTerminate(int page, int limit)
+        {
+            int statusCode = 200;
+            String keyword = HttpContext.Request.Query["keyword"];
+            var response = new Responses.HttpResponse();
+
+            try
+            {
+                response = _siapRepository.GetDanaMobilPaginateTerminate(page, limit, keyword);
+
+                if (response.totalData > 0)
+                {
+                    response.statuscode = statusCode;
+                    response.message = "OK";
+                }
+                else
+                {
+                    statusCode = 404;
+                    response.statuscode = statusCode;
+                    response.message = "Not found!";
+                }
+            }
+            catch (Exception e)
+            {
+                statusCode = 500;
+                response.statuscode = statusCode;
+                response.message = (e.Message + " " + e.StackTrace);
+            }
+
+            HttpContext.Response.StatusCode = response.statuscode;
+            return Json(response);
+        }
+
+        public ActionResult GetListDanaMobilReject(int page, int limit)
+        {
+            int statusCode = 200;
+            String keyword = HttpContext.Request.Query["keyword"];
+            var response = new Responses.HttpResponse();
+
+            try
+            {
+                response = _siapRepository.GetDanaMobilPaginateReject(page, limit, keyword);
+
+                if (response.totalData > 0)
+                {
+                    response.statuscode = statusCode;
+                    response.message = "OK";
+                }
+                else
+                {
+                    statusCode = 404;
+                    response.statuscode = statusCode;
+                    response.message = "Not found!";
+                }
+            }
+            catch (Exception e)
+            {
+                statusCode = 500;
+                response.statuscode = statusCode;
+                response.message = (e.Message + " " + e.StackTrace);
+            }
+
+            HttpContext.Response.StatusCode = response.statuscode;
+            return Json(response);
+        }
+
         public ActionResult Details(long id)
         {
             string type = HttpContext.Request.Query["type"];
@@ -134,6 +464,21 @@ namespace SurveyConsole.Controllers
 
             if (type == "mobil")
             {
+                var datax = (from dm in _facedb.SiapDms
+                             join m in _facedb.MmerkViews on EF.Functions.Collate(dm.CarBrand, "SQL_Latin1_General_CP1_CS_AS") equals m.MerkCode
+                             join t in _facedb.MtypeViews on EF.Functions.Collate(dm.CarType, "SQL_Latin1_General_CP1_CS_AS") equals t.TypeCode
+                             join md in _facedb.MmodelViews on EF.Functions.Collate(dm.CarModel, "SQL_Latin1_General_CP1_CS_AS") equals md.ModelCode
+                             where dm.EntryId == id
+                             select new { merkdesc = m.Description, typedesc = t.Description, modeldesc = md.Description }).ToList();
+                string unitdesc = "";
+
+                foreach (var dtunit in datax)
+                {
+                    unitdesc = dtunit.merkdesc + "/ " + dtunit.typedesc + "/ " + dtunit.modeldesc;
+                }
+
+                ViewBag.unit = unitdesc;
+
                 var data = _facedb.SiapDms.Where(a => a.EntryId == id).OrderByDescending(a => a.CreDate).ThenByDescending(a => a.ModDate).FirstOrDefault();
 
                 if(data == null)

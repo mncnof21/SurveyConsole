@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Mobile Survey CMS</title>
+    <title>Digital Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="" name="author" />
@@ -32,7 +32,7 @@
     <link href="~/assets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/css/app.min.css" rel="stylesheet" type="text/css" />
     <link href="~/js/sweetalert2/sweetalert2.min.css" />
-
+    <link href="~/assets/plugins/morris/morris.css" type="text/css" />
     @RenderSection("Styles", false)
 </head>
 
@@ -71,6 +71,16 @@
                         </ul>
                     </li>
                 }
+                else if (Context.Session.GetString("GroupCode") == "ADD")
+                {
+                    <li>
+                        <a href="javascript: void(0);"> <i data-feather="credit-card" class="align-self-center menu-icon"></i><span>Motion Credit</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("DanaRumah", "Siap")"><i class="ti-control-record"></i>Motion Credit - Dana Rumah</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("DanaMobil", "Siap")"><i class="ti-control-record"></i>Motion Credit - Dana Mobil</a></li>
+                        </ul>
+                    </li>
+                }
                 <hr class="hr-dashed hr-menu">
             </ul>
         </div>
@@ -87,9 +97,12 @@
                         <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
                            aria-haspopup="false" aria-expanded="false">
                             <span class="ml-1 nav-user-name hidden-sm">
-                                @ViewData["UserName"] &nbsp;&nbsp;
+                                @Context.Session.GetString("UserName") &nbsp;&nbsp;
                             </span>
-                            <img src="~/assets/images/users/user-5.jpg" alt="profile-user" class="rounded-circle thumb-xs" />
+                            @*<img src="~/assets/images/users/user-5.jpg" alt="profile-user" class="rounded-circle thumb-xs" />*@
+                            <div class="avatar-box thumb-sm align-self-center me-2">
+                                <span class="avatar-title bg-purple rounded-circle"><i class="fas fa-user"></i></span>
+                            </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="@Url.Action("ChangePassword", "Auth")"><i data-feather="settings" class="align-self-center icon-xs icon-dual mr-1"></i> Change Password</a>
@@ -107,7 +120,7 @@
                     </li>
                     <li class="creat-btn">
                         <div class="nav-link">
-                            <a class=" btn btn-sm btn-soft-primary" href="#" role="button">@ViewData["BranchName"]</a>
+                            <a class=" btn btn-sm btn-soft-primary" href="#" role="button"> @Context.Session.GetString("BranchName")</a>
                         </div>
                     </li>
                 </ul>
@@ -138,8 +151,8 @@
     <script src="~/assets/js/moment.js"></script>
     <script src="~/assets/plugins/daterangepicker/daterangepicker.js"></script>
 
-    <script src="~/assets/plugins/jquery-steps/jquery.steps.min.js"></script>
-    <script src="~/assets/pages/jquery.form-wizard.init.js"></script>
+    @*<script src="~/assets/plugins/jquery-steps/jquery.steps.min.js"></script>
+    <script src="~/assets/pages/jquery.form-wizard.init.js"></script>*@
 
     <!-- Required datatable js -->
     <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -162,6 +175,10 @@
 
     <!-- App js -->
     <script src="~/assets/js/app.js"></script>
+
+    <script src="~/assets/plugins/raphael/raphael.min.js"></script>
+    <script src="~/assets/plugins/morris/morris.min.js"></script>
+
 
     @RenderSection("Scripts", false)
 

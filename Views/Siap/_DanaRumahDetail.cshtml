@@ -4,11 +4,19 @@
     String siapurl = TempData["SiapUrl"].ToString();
     String sts = Model.MfinState;
 
+    String strMonthlyIncome = Convert.ToDouble(Model.MonthlyIncome).ToString("###,###,###,###,###,###").Replace(",", ".");
+    String strSubmittedAmount = Convert.ToDouble(Model.SubmittedAmount).ToString("###,###,###,###,###,###").Replace(",", ".");
+    String strFee = Convert.ToDouble(Model.Fee).ToString("###,###,###,###,###,###").Replace(",", ".");
+    String strEstimatedInstallment = Convert.ToDouble(Model.EstimatedInstallment).ToString("###,###,###,###,###,###").Replace(",", ".");
+    String strEstimatedDisbursement = Convert.ToDouble(Model.EstimatedDisbursement).ToString("###,###,###,###,###,###").Replace(",", ".");
+
     String strPbbPhoto = Model.PbbPhoto.Replace("C:\\", "/").Replace("\\", "/").Replace("Application/APISIAP/Upload/DanaRumah", "danarumah");
     String strHousePhoto = Model.HousePhoto.Replace("C:\\", "/").Replace("\\", "/").Replace("Application/APISIAP/Upload/DanaRumah", "danarumah");
     String strNpwpPhoto = Model.NpwpPhoto.Replace("C:\\", "/").Replace("\\", "/").Replace("Application/APISIAP/Upload/DanaRumah", "danarumah");
 
     String lblsts = "";
+    String iconactivity = "";
+    String textactivity = "";
 
     String stsbtnsurveyprogress = "";
     String stsbtnsurveydone = "";
@@ -25,6 +33,22 @@
     String stsbtnsigndone = "";
     String stsbtngoliveactive = "";
     String stsbtngolivedisburse = "";
+
+    String cbtnsurveyprogress = "";
+    String cbtnsurveydone = "";
+    String cbtnappraisalunpaid = "";
+    String cbtnappraisalpaid = "";
+    String cbtnappraisalonprogress = "";
+    String cbtnappraisaldone = "";
+    String cbtninputcore = "";
+    String cbtncommitteeapprove = "";
+    String cbtncommitteereject = "";
+    String cbtncommitteecancel = "";
+    String cbtnterminate = "";
+    String cbtnsignonprogress = "";
+    String cbtnsigndone = "";
+    String cbtngoliveactive = "";
+    String cbtngolivedisburse = "";
 }
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -108,9 +132,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="income" class="col-sm-4 col-form-label">Nett Pendapatan / Bulan</label>
+                        <label for="income" class="col-sm-4 col-form-label">Nett Pendapatan / Bulan (IDR)</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="income" value="@(Model.MonthlyIncome)" readonly disabled>
+                            <input class="form-control" id="income" value="@(strMonthlyIncome)" readonly disabled>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -204,7 +228,7 @@
     </div>
     <div class="tab-pane fade" id="financing" role="tabpanel" aria-labelledby="financing-tab">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form">
@@ -221,15 +245,15 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="principal" class="col-sm-4 col-form-label">Pokok Hutang</label>
+                                <label for="principal" class="col-sm-4 col-form-label">Pokok Hutang (IDR)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" id="principal" value="@(Model.SubmittedAmount)" readonly disabled>
+                                    <input class="form-control" id="principal" value="@(strSubmittedAmount)" readonly disabled>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="fee" class="col-sm-4 col-form-label">Biaya Admin</label>
+                                <label for="fee" class="col-sm-4 col-form-label">Biaya Admin (IDR)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" id="fee" value="@(Model.Fee)" readonly disabled>
+                                    <input class="form-control" id="fee" value="@(strFee)" readonly disabled>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -239,15 +263,15 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="installment" class="col-sm-4 col-form-label">Angsuran</label>
+                                <label for="installment" class="col-sm-4 col-form-label">Angsuran (IDR)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" id="installment" value="@(Model.EstimatedInstallment)" readonly disabled>
+                                    <input class="form-control" id="installment" value="@(strEstimatedInstallment)" readonly disabled>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="installment" class="col-sm-4 col-form-label">Disbursement</label>
+                                <label for="installment" class="col-sm-4 col-form-label">Pendanaan (IDR)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" id="disbursement" value="@(Model.EstimatedDisbursement)" readonly disabled>
+                                    <input class="form-control" id="disbursement" value="@(strEstimatedDisbursement)" readonly disabled>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -279,7 +303,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <form id="frmrejectdata">
-                                        <button type="button" class="btn btn-danger btn-block" v-on:click="rejectDanaRumah()">Reject</button>
+                                        <button type="button" class="btn btn-danger px-3 mt-2" v-on:click="rejectDanaRumah()">Reject</button>
                                     </form>
                                 </div>
                                 <div class="col-sm-4">
@@ -289,13 +313,501 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Tracking Status</h4>
+                        <h4 class="card-title">Activity (Tracking Status)</h4>
                     </div><!--end card-header-->
                     <div class="card-body">
-                        <div class="main-timeline mt-3">
+
+                        <div class="slimscroll activity-scroll">
+                            <div class="activity">
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-edit"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="text-muted mb-0 fw-semibold">
+                                                            Status :
+                                                        </p>
+                                                        <h3 class="text-muted m-0">
+                                                            Entry Data
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @{
+                                    if (sts == "push-to-mfin")
+                                    {
+                                        stsbtnsurveyprogress = "";
+                                        cbtnsurveyprogress = "btn btn-sm btn-warning px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtnsurveyprogress = "disabled";
+                                        cbtnsurveyprogress = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "survey-onprogress")
+                                    {
+                                        stsbtnsurveydone = "";
+                                        cbtnsurveydone = "btn btn-sm btn-success px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtnsurveydone = "disabled";
+                                        cbtnsurveydone = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+
+                                    if (sts == "push-to-mfin" || sts == "survey-onprogress")
+                                    {
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-home @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Survey Data
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <hr class="hr-dashed">
+                                                <form id="frmsurveydata">
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <div class="mb-3 row">
+                                                        <label for="horizontalInput2" class="col-sm-2 form-label align-self-center mb-lg-0">Surveyor</label>
+                                                        <div class="col-sm-10">
+                                                            <select class="form-control" id="surveyor" name="surveyor" @(stsbtnsurveyprogress)>
+                                                                <option value="">-- select</option>
+                                                                <option value="MNCF">MNCF</option>
+                                                                <option value="POS">POS</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>                                                    
+                                                    <div class="row">
+                                                        <div class="col-sm-10 ms-auto">
+                                                            <button type="button" class="@(cbtnsurveyprogress)" v-on:click="surveyOnprogressRumah()" @(stsbtnsurveyprogress)>On Progress</button>
+                                                            <button type="button" class="@(cbtnsurveydone)" v-on:click="surveyDoneRumah()" @(stsbtnsurveydone)>Done</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @{
+                                    if (sts == "survey-done")
+                                    {
+                                        stsbtnappraisalunpaid = "";
+                                        cbtnappraisalunpaid = "btn btn-sm btn-danger px-3 mt-2";
+
+                                    }
+                                    else
+                                    {
+                                        stsbtnappraisalunpaid = "disabled";
+                                        cbtnappraisalunpaid = "btn btn-sm btn-outline-secondary px-3 mt-2";
+
+                                    }
+
+                                    if (sts == "appraisal-unpaid")
+                                    {
+                                        stsbtnappraisalpaid = "";
+                                        cbtnappraisalpaid = "btn btn-sm btn-success px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtnappraisalpaid = "disabled";
+                                        cbtnappraisalpaid = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "appraisal-paid")
+                                    {
+                                        stsbtnappraisalonprogress = "";
+                                        cbtnappraisalonprogress = "btn btn-sm btn-warning px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtnappraisalonprogress = "disabled";
+                                        cbtnappraisalonprogress = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "appraisal-onprogress")
+                                    {
+                                        stsbtnappraisaldone = "";
+                                        cbtnappraisaldone = "btn btn-sm btn-success px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtnappraisaldone = "disabled";
+                                        cbtnappraisaldone = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "survey-done" || sts == "appraisal-unpaid" || sts == "appraisal-paid" || sts == "appraisal-onprogress")
+                                    {
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+
+                                    }
+                                    else
+                                    {
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-check-circle @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Appraisal
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <hr class="hr-dashed">
+                                                <form id="frmappraisal">
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <button type="button" class="@(cbtnappraisalunpaid)" v-on:click="appraisalUnpaidRumah()" @(stsbtnappraisalunpaid)>Unpaid</button>
+                                                    <button type="button" class="@(cbtnappraisalpaid)" v-on:click="appraisalPaidRumah()" @(stsbtnappraisalpaid)>Paid</button>
+                                                    <button type="button" class="@(cbtnappraisalonprogress)" v-on:click="appraisalOnprogress()" @(stsbtnappraisalonprogress)>On Progress</button>
+                                                    <button type="button" class="@(cbtnappraisaldone)" v-on:click="appraisalDone()" @(stsbtnappraisaldone)>Done</button>
+                                                </form>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                @{
+                                    if (sts == "appraisal-done")
+                                    {
+                                        stsbtninputcore = "";
+                                        cbtninputcore = "btn btn-sm btn-success px-3 mt-2";
+
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        stsbtninputcore = "disabled";
+                                        cbtninputcore = "btn btn-sm btn-outline-secondary px-3 mt-2";
+
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-desktop @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Input Core
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <hr class="hr-dashed">
+                                                <form id="frminputcore">
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <button type="button" class="@(cbtninputcore)" v-on:click="submitInputCoreRumah()" @(stsbtninputcore)>Submit MSIX</button>
+                                                </form>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @{
+                                    if (sts == "core-submit")
+                                    {
+                                        stsbtncommitteeapprove = "";
+                                        stsbtncommitteereject = "";
+                                        stsbtncommitteecancel = "";
+                                        cbtncommitteeapprove = "btn btn-sm btn-success px-3 mt-2";
+                                        cbtncommitteereject = "btn btn-sm btn-danger px-3 mt-2";
+                                        cbtncommitteecancel = "btn btn-sm btn-warning px-3 mt-2";
+
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        stsbtncommitteeapprove = "disabled";
+                                        stsbtncommitteereject = "disabled";
+                                        stsbtncommitteecancel = "disabled";
+                                        cbtncommitteeapprove = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                        cbtncommitteereject = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                        cbtncommitteecancel = "btn btn-sm btn-outline-secondary px-3 mt-2";
+
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-user-check @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Committee
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <hr class="hr-dashed">
+
+                                                <form id="frmcommittee">
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <div class="mb-3 row">
+                                                        <label for="horizontalInput1" class="col-sm-2 form-label align-self-center mb-lg-0">Contract Number</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="contractno_msix" value="" @(stsbtncommitteeapprove) />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-10 ms-auto">
+                                                            <button type="button" class="@(cbtncommitteeapprove)" v-on:click="committeeApprovedRumah()" @(stsbtncommitteeapprove)>Approved</button>
+                                                            <button type="button" class="@(cbtncommitteereject)" v-on:click="committeeRejectRumah()" @(stsbtncommitteereject)>Reject</button>
+                                                            <button type="button" class="@(cbtncommitteecancel)" v-on:click="committeeCancelRumah()" @(stsbtncommitteecancel)>Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @{
+                                    if (sts == "approval-approved")
+                                    {
+                                        stsbtnsignonprogress = "";
+                                        cbtnsignonprogress = "btn btn-sm btn-warning px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtnsignonprogress = "disabled";
+                                        cbtnsignonprogress = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "sign-onprogress")
+                                    {
+                                        stsbtnsigndone = "";
+                                        cbtnsigndone = "btn btn-sm btn-success px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtnsigndone = "disabled";
+                                        cbtnsigndone = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "approval-approved" || sts == "sign-onprogress")
+                                    {
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-pen-alt @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Sign
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <hr class="hr-dashed">
+                                                <form id="frmsigndata">
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <button type="button" class="@(cbtnsignonprogress)" v-on:click="signOnprogressRumah()" @(stsbtnsignonprogress)>On Progress</button>
+                                                    <button type="button" class="@(cbtnsigndone)" v-on:click="signDoneRumah()" @(stsbtnsigndone)>Done</button>
+                                                </form>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @{
+                                    if (sts == "sign-done")
+                                    {
+                                        stsbtngoliveactive = "";
+                                        cbtngoliveactive = "btn btn-sm btn-primary px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtngoliveactive = "disabled";
+                                        cbtngoliveactive = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "golive-active")
+                                    {
+                                        stsbtngolivedisburse = "";
+                                        cbtngolivedisburse = "btn btn-sm btn-success px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtngolivedisburse = "disabled";
+                                        cbtngolivedisburse = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "sign-done" || sts == "golive-active")
+                                    {
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-money-bill @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)                                                            
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Disburse
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <hr class="hr-dashed">
+                                                <form id="frmdisburse">
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <button type="button" class="@(cbtngoliveactive)" v-on:click="goliveActiveRumah()" @(stsbtngoliveactive)>Active</button>
+                                                    <button type="button" class="@(cbtngolivedisburse)" v-on:click="goliveDisburseRumah()" @(stsbtngolivedisburse)>Disburse</button>
+                                                </form>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                @{
+                                    if (sts == "golive-disburse")
+                                    {
+                                        stsbtnterminate = "";
+                                        cbtnterminate = "btn btn-sm btn-primary px-3 mt-2";
+
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        stsbtnterminate = "disabled";
+                                        cbtnterminate = "btn btn-sm btn-outline-secondary px-3 mt-2";
+
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-money-bill-wave @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Loan Terminate
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <hr class="hr-dashed">
+                                                <form id="frmterminate">
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <button type="button" class="@(cbtnterminate)" v-on:click="loanTerminateRumah()" @(stsbtnterminate)>Submit</button>
+                                                </form>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--end activity-->
+                        </div>
+
+                        @*<div class="main-timeline mt-3">
                             <div class="timeline">
                                 <span class="timeline-icon"></span>
                                 <span class="year">Entry Data</span>
@@ -557,7 +1069,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div>*@
                     </div>  <!--end card-body-->
                 </div><!--end card-->
             </div>

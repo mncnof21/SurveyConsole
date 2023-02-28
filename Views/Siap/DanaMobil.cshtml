@@ -35,6 +35,127 @@
     </script>
 
     <script>
+        var vm = new Vue({
+            el: "#appnew", data: {
+                baseUrl: baseUrl, listSiap: [], currPage: 1, totalPage: 1, totalData: 0, limit: 10, keyword: "", isLoading: !1
+            }, watch: {
+                limit: function (t, a) {
+                    var i = parseInt(t); this.currPage = 1, this.loadData(this.currPage, i, this.keyword)
+                }, keyword: function (t, a) { this.currPage = 1, this.loadData(this.currPage, this.limit, this.keyword) },
+                currPage: function (t, a) { var i = parseInt(t); this.loadData(i, this.limit, this.keyword) }
+            }, mounted: function () { this.loadData(this.currPage, this.limit, null) }, 
+            methods: {
+                loadData: function (t, a, i) {
+                    this.isLoading = !0, axios({
+                        method: "get", url: baseUrl + "/Siap/GetListDanaMobilNew/" + t + "/" + a + (null === i || "" === i ? "" : "?keyword=" + i)
+                    }).then(t => {
+                        this.listSiap = t.data.data, this.totalPage = t.data.totalPage, this.totalData = t.data.totalData
+                    }).catch(t => { }).then(t => { this.isLoading = !1 })
+                },
+                getTableClasses: function(date) {
+                    let dt = new Date(date);
+                    let x = new Date();
+                    let dt1 = dt.setHours(dt.getHours() + 1);
+                    let dt2 = dt.setHours(dt.getHours() + 2);
+                    let rtn;
+                    if(dt1 <= x) {
+                        rtn = 'table-warning';
+                    }
+
+                    if(dt2 <= x){
+                        rtn = 'table-danger';
+                    }
+                    return rtn;
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var vm = new Vue({
+            el: "#apponprogress", data: {
+                baseUrl: baseUrl, listSiap: [], currPage: 1, totalPage: 1, totalData: 0, limit: 10, keyword: "", isLoading: !1
+            }, watch: {
+                limit: function (t, a) {
+                    var i = parseInt(t); this.currPage = 1, this.loadData(this.currPage, i, this.keyword)
+                }, keyword: function (t, a) { this.currPage = 1, this.loadData(this.currPage, this.limit, this.keyword) },
+                currPage: function (t, a) { var i = parseInt(t); this.loadData(i, this.limit, this.keyword) }
+            }, mounted: function () { this.loadData(this.currPage, this.limit, null) }, methods: {
+                loadData: function (t, a, i) {
+                    this.isLoading = !0, axios({
+                        method: "get", url: baseUrl + "/Siap/GetListDanaMobilOnprogress/" + t + "/" + a + (null === i || "" === i ? "" : "?keyword=" + i)
+                    }).then(t => {
+                        this.listSiap = t.data.data, this.totalPage = t.data.totalPage, this.totalData = t.data.totalData
+                    }).catch(t => { }).then(t => { this.isLoading = !1 })
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var vm = new Vue({
+            el: "#appgolive", data: {
+                baseUrl: baseUrl, listSiap: [], currPage: 1, totalPage: 1, totalData: 0, limit: 10, keyword: "", isLoading: !1
+            }, watch: {
+                limit: function (t, a) {
+                    var i = parseInt(t); this.currPage = 1, this.loadData(this.currPage, i, this.keyword)
+                }, keyword: function (t, a) { this.currPage = 1, this.loadData(this.currPage, this.limit, this.keyword) },
+                currPage: function (t, a) { var i = parseInt(t); this.loadData(i, this.limit, this.keyword) }
+            }, mounted: function () { this.loadData(this.currPage, this.limit, null) }, methods: {
+                loadData: function (t, a, i) {
+                    this.isLoading = !0, axios({
+                        method: "get", url: baseUrl + "/Siap/GetListDanaMobilGolive/" + t + "/" + a + (null === i || "" === i ? "" : "?keyword=" + i)
+                    }).then(t => {
+                        this.listSiap = t.data.data, this.totalPage = t.data.totalPage, this.totalData = t.data.totalData
+                    }).catch(t => { }).then(t => { this.isLoading = !1 })
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var vm = new Vue({
+            el: "#appterminate", data: {
+                baseUrl: baseUrl, listSiap: [], currPage: 1, totalPage: 1, totalData: 0, limit: 10, keyword: "", isLoading: !1
+            }, watch: {
+                limit: function (t, a) {
+                    var i = parseInt(t); this.currPage = 1, this.loadData(this.currPage, i, this.keyword)
+                }, keyword: function (t, a) { this.currPage = 1, this.loadData(this.currPage, this.limit, this.keyword) },
+                currPage: function (t, a) { var i = parseInt(t); this.loadData(i, this.limit, this.keyword) }
+            }, mounted: function () { this.loadData(this.currPage, this.limit, null) }, methods: {
+                loadData: function (t, a, i) {
+                    this.isLoading = !0, axios({
+                        method: "get", url: baseUrl + "/Siap/GetListDanaMobilTerminate/" + t + "/" + a + (null === i || "" === i ? "" : "?keyword=" + i)
+                    }).then(t => {
+                        this.listSiap = t.data.data, this.totalPage = t.data.totalPage, this.totalData = t.data.totalData
+                    }).catch(t => { }).then(t => { this.isLoading = !1 })
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var vm = new Vue({
+            el: "#appreject", data: {
+                baseUrl: baseUrl, listSiap: [], currPage: 1, totalPage: 1, totalData: 0, limit: 10, keyword: "", isLoading: !1
+            }, watch: {
+                limit: function (t, a) {
+                    var i = parseInt(t); this.currPage = 1, this.loadData(this.currPage, i, this.keyword)
+                }, keyword: function (t, a) { this.currPage = 1, this.loadData(this.currPage, this.limit, this.keyword) },
+                currPage: function (t, a) { var i = parseInt(t); this.loadData(i, this.limit, this.keyword) }
+            }, mounted: function () { this.loadData(this.currPage, this.limit, null) }, methods: {
+                loadData: function (t, a, i) {
+                    this.isLoading = !0, axios({
+                        method: "get", url: baseUrl + "/Siap/GetListDanaMobilReject/" + t + "/" + a + (null === i || "" === i ? "" : "?keyword=" + i)
+                    }).then(t => {
+                        this.listSiap = t.data.data, this.totalPage = t.data.totalPage, this.totalData = t.data.totalData
+                    }).catch(t => { }).then(t => { this.isLoading = !1 })
+                }
+            }
+        });
+    </script>
+
+    <script>
         function formatDate(date) {
             date = new Date(date);
 
@@ -47,132 +168,182 @@
     </script>
 }
 
-<div id="app">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                &nbsp;
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            &nbsp;
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Motion Credit Dana Mobil</h4>
-                    </div><!--end card-header-->
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12">
-                                <div class="float-md-left">
-                                    <div class="form">
-                                        <div class="form-group row">
-                                            <label for="perpage" class="col-md-6 col-sm-12 col-form-label">Per Page</label>
-                                            <div class="col-md-6 col-sm-12">
-                                                <select name="perpage" id="perpage" v-model="limit" class="form-control">
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                    <option value="100">100</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Motion Credit Dana Mobil</h4>
+                </div><!--end card-header-->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="new-tab" data-toggle="tab" href="#new" role="tab" aria-controls="new" aria-selected="true">New</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="onprogress-tab" data-toggle="tab" href="#onprogress" role="tab" aria-controls="onprogress" aria-selected="false">Onprogress</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="golive-tab" data-toggle="tab" href="#golive" role="tab" aria-controls="golive" aria-selected="false">Golive</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="terminate-tab" data-toggle="tab" href="#terminate" role="tab" aria-controls="terminate" aria-selected="false">Terminate</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="reject-tab" data-toggle="tab" href="#reject" role="tab" aria-controls="reject" aria-selected="false">Reject | Cancel</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <br />
+                                <div class="tab-pane fade show active" id="new" role="tabpanel" aria-labelledby="new-tab">
+                                    @{
+                                        await Html.RenderPartialAsync("~/Views/Siap/DanaMobilNew.cshtml");
+                                    }
                                 </div>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <div class="float-md-right">
-                                    <div class="form">
-                                        <div class="form-group row">
-                                            <label for="search" class="col-md-6 col-sm-12 col-form-label">Search</label>
-                                            <div class="col-md-6 col-sm-12">
-                                                <input type="text" class="form-control" id="search" name="search" v-model="keyword">
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="tab-pane fade" id="onprogress" role="tabpanel" aria-labelledby="onprogress-tab">
+                                    @{
+                                        await Html.RenderPartialAsync("~/Views/Siap/DanaMobilOnprogress.cshtml");
+                                    }
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <table id="datatable" class="table table-bordered" style="border-collapse: collapse; border-spacing: 0; width: 100%; overflow-x: scroll;">
-                                        <thead>
-                                            <tr>
-                                                <th>App ID</th>
-                                                <th>Tanggal</th>
-                                                <th>Nama Client</th>
-                                                <th>No Ktp</th>
-                                                <th>No Polisi</th>
-                                                <th>Telepon</th>
-                                                <th>Status</th>
-                                                <th>Detail</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tblbody">
-                                            <template v-for="(item, index) in listSiap">
-                                                <tr>
-                                                    <td>{{ item.siapId }}</td>
-                                                    <td>{{ new Date(item.creDate).toLocaleString() }}</td>
-                                                    <td>{{ item.fullName }}</td>
-                                                    <td>{{ item.nikNumber }}</td>
-                                                    <td>{{ item.carRegistrationNumber }}</td>
-                                                    <td>{{ item.phoneNumber }}</td>
-                                                    <td>{{ item.mfinState }}</td>
-                                                    <td><a class="btn btn-primary" :href="(baseUrl + '/Siap/Details/' + item.entryId + '?type=mobil')">Detail</a></td>
-                                                </tr>
-                                            </template>
-                                            <tr v-if="isLoading">
-                                                <td colspan="7" style="text-align: center;"><img src="~/assets/images/spinner.gif" style="width: 48px;" /></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="tab-pane fade" id="golive" role="tabpanel" aria-labelledby="golive-tab">
+                                    @{
+                                        await Html.RenderPartialAsync("~/Views/Siap/DanaMobilGolive.cshtml");
+                                    }
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                &nbsp;
-                            </div>
-                            <div class="col-md-4 justify-content-center">
-                                <div class="form-group row justify-content-center">
-                                    <button class="btn btn-primary" v-on:click="currPage = currPage-1" :disabled="currPage <= 1">Previous</button>
-                                    &nbsp;
-                                    <select class="form-control" v-model="currPage" style="width: 15%;">
-                                        <option v-for="n in totalPage" v-bind:value="n">
-                                            {{ n }}
-                                        </option>
-                                    </select>
-                                    &nbsp;
-                                    <button class="btn btn-primary" v-on:click="currPage = currPage+1" :disabled="currPage >= totalPage">Next</button>
+                                <div class="tab-pane fade" id="terminate" role="tabpanel" aria-labelledby="terminate-tab">
+                                    @{
+                                        await Html.RenderPartialAsync("~/Views/Siap/DanaMobilTerminate.cshtml");
+                                    }
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                &nbsp;
+                                <div class="tab-pane fade" id="reject" role="tabpanel" aria-labelledby="reject-tab">
+                                    @{
+                                        await Html.RenderPartialAsync("~/Views/Siap/DanaMobilReject.cshtml");
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div> <!-- end col -->
-        </div> <!-- end row -->
-    </div><!-- container -->
 
-    <div class="modal fade" id="AddModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Tambah Customer</h5>
-                    <button type="button" class="close" data-dismiss="modal" v-on:click="closeModal()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
 
+                    @*<div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="float-md-left">
+                                <div class="form">
+                                    <div class="form-group row">
+                                        <label for="perpage" class="col-md-6 col-sm-12 col-form-label">Per Page</label>
+                                        <div class="col-md-6 col-sm-12">
+                                            <select name="perpage" id="perpage" v-model="limit" class="form-control">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="float-md-right">
+                                <div class="form">
+                                    <div class="form-group row">
+                                        <label for="search" class="col-md-6 col-sm-12 col-form-label">Search</label>
+                                        <div class="col-md-6 col-sm-12">
+                                            <input type="text" class="form-control" id="search" name="search" v-model="keyword">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table id="datatable" class="table table-bordered" style="border-collapse: collapse; border-spacing: 0; width: 100%; overflow-x: scroll;">
+                                    <thead>
+                                        <tr>
+                                            <th>App ID</th>
+                                            <th>Tanggal</th>
+                                            <th>Nama Client</th>
+                                            <th>No Ktp</th>
+                                            <th>No Polisi</th>
+                                            <th>Telepon</th>
+                                            <th>Status</th>
+                                            <th>Detail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tblbody">
+                                        <template v-for="(item, index) in listSiap">
+                                            <tr>
+                                                <td>{{ item.siapId }}</td>
+                                                <td>{{ new Date(item.creDate).toLocaleString() }}</td>
+                                                <td>{{ item.fullName }}</td>
+                                                <td>{{ item.nikNumber }}</td>
+                                                <td>{{ item.carRegistrationNumber }}</td>
+                                                <td>{{ item.phoneNumber }}</td>
+                                                <td>{{ item.mfinState }}</td>
+                                                <td><a class="btn btn-primary" :href="(baseUrl + '/Siap/Details/' + item.entryId + '?type=mobil')">Detail</a></td>
+                                            </tr>
+                                        </template>
+                                        <tr v-if="isLoading">
+                                            <td colspan="7" style="text-align: center;"><img src="~/assets/images/spinner.gif" style="width: 48px;" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            &nbsp;
+                        </div>
+                        <div class="col-md-4 justify-content-center">
+                            <div class="form-group row justify-content-center">
+                                <button class="btn btn-primary" v-on:click="currPage = currPage-1" :disabled="currPage <= 1">Previous</button>
+                                &nbsp;
+                                <select class="form-control" v-model="currPage" style="width: 15%;">
+                                    <option v-for="n in totalPage" v-bind:value="n">
+                                        {{ n }}
+                                    </option>
+                                </select>
+                                &nbsp;
+                                <button class="btn btn-primary" v-on:click="currPage = currPage+1" :disabled="currPage >= totalPage">Next</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            &nbsp;
+                        </div>
+                    </div>*@
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
-                </div>
+            </div>
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+</div><!-- container -->
+
+<div class="modal fade" id="AddModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Customer</h5>
+                <button type="button" class="close" data-dismiss="modal" v-on:click="closeModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
             </div>
         </div>
     </div>
 </div>
+

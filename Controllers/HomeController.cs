@@ -31,6 +31,7 @@ namespace SurveyConsole.Controllers
         private readonly IConfiguration _config;
         private AppsSettings _appSettings = new AppsSettings();
         private survdbContext _survDB;
+        private ApplRepository _applRepository;
         //private FirebaseApp _fapp;
         //private FirebaseMessaging messaging;
 
@@ -41,6 +42,7 @@ namespace SurveyConsole.Controllers
             _config = config;
             _config.Bind(_appSettings);
             _survDB = survDB;
+            _applRepository = new ApplRepository(_survDB);
         }
 
         [HttpGet]
@@ -109,14 +111,11 @@ namespace SurveyConsole.Controllers
         {
             int statuscode = 200;
             var respose = new Responses.HttpResponse();
+            string keyword = HttpContext.Request.Query["keyword"];
 
             try
-            {
-                string keyword = HttpContext.Request.Query["keyword"];
-                
-                ApplRepository ar = new ApplRepository(_survDB);
-
-                respose = ar.GetApplPaginate(HttpContext.Session.GetString("BranchCode"), page, limit, (String.IsNullOrEmpty(keyword) ? null : keyword));
+            {                               
+                respose = _applRepository.GetApplPaginate(HttpContext.Session.GetString("BranchCode"), page, limit, (String.IsNullOrEmpty(keyword) ? null : keyword));
 
                 if (respose.totalData > 0)
                 {
@@ -138,7 +137,7 @@ namespace SurveyConsole.Controllers
             }
 
             HttpContext.Response.StatusCode = respose.statuscode;
-            return Content(JsonConvert.SerializeObject(respose), "application/json");
+            return Content(JsonConvert.SerializeObject(respose), "application/json");            
         }
 
         [HttpPost]

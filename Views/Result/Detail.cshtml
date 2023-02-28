@@ -5,6 +5,7 @@
     SurveyConsole.Models.Survdbpgsql.SurveyresultClient datapribadi = ViewBag.datapribadi;
     List<SurveyConsole.Models.Survdbpgsql.VwResultQuisioner> kuesioner = ViewBag.kuesioner;
     List<SurveyConsole.Models.Survdbpgsql.VwResultUpload> dokumen = ViewBag.dokumen;
+    List<SurveyConsole.Models.Survdbpgsql.VwResultUpload> download = ViewBag.download;
 }
 
 @section Scripts{
@@ -29,23 +30,25 @@
 
             },
             methods: {
-                downloadDoc: function () {
+                downloadDoc: function (id,doccode,noktp) {
                     var t = document.getElementById("frmdownload"), a = {
-                        id: document.getElementById("idsurvey").value
+                        id: id,
+                        doccode: doccode,
+                        noktp: noktp,
                     };
 
                     axios({
                         method: 'post',
                         url: baseUrl + '@Url.Action("DownloadDPKDOK", "Result")',
-                        data: a
+                        params : a,
                     }).then(t => {
-                        Swal.fire("Sukses", t.data.message, "success").then(function () {
-                            window.location.href = baseUrl + "/Siap/Result";
+                        Swal.fire("Sukses", t.data.url, "success").then(function () {
+                            window.open(baseUrl + t.data.url);
                         })
                     }).catch(t => {
                         Swal.fire("Gagal!", t.data.message, "error")
                     });
-                },
+                },                
             }
         });
     </script>
@@ -271,34 +274,54 @@
                                         </div>
                                         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                                             <div class="card-body">
-                                                <div class="table-responsive">
-                                                    <form id="frmdownload">
-                                                        <input type="hidden" id="idsurvey" value="@datapribadi.Id">
-                                                        @*<button type="button" class="btn btn-success btn-block" v-on:click="downloadDoc()">Download</button>*@
-                                                        </form>
-                                                        <table class="table table-striped">
-                                                            <tr>
-                                                                <th>No</th>
-                                                                <th>Nama Dokumen</th>
-                                                                <th>Kode</th>
-                                                                <th>File</th>
-                                                            </tr>
-                                                            @if (dokumen != null && dokumen.Count() > 0)
+                                                <div class="table-responsive">                                                    
+                                                    <table class="table table-striped">
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Nama Dokumen</th>
+                                                            <th>Kode</th>
+                                                            <th>File</th>
+                                                        </tr>
+                                                        @if (dokumen != null && dokumen.Count() > 0)
+                                                        {
+                                                            int i = 1;
+                                                            @foreach (var item in dokumen)
                                                             {
-                                                                int i = 1;
-                                                                @foreach (var item in dokumen)
-                                                                {
-                                                                    <tr>
-                                                                        <td>@(i)</td>
-                                                                        <td>@(item.Desc)</td>
-                                                                        <td>@(item.Kode)</td>
-                                                                        <td><a target="_blank" href="@(Url.Content(item.Path))">@(item.Filename)</a></td>
-                                                                    </tr>
-                                                                    i++;
-                                                                }
+                                                                <tr>
+                                                                    <td>@(i)</td>
+                                                                    <td>@(item.Desc)</td>
+                                                                    <td>@(item.Kode)</td>
+                                                                    <td><a target="_blank" href="@(Url.Content(item.Path))">@(item.Filename)</a></td>
+                                                                </tr>
+                                                                i++;
                                                             }
-                                                        </table>
-</div>
+                                                        }
+                                                    </table>
+                                                    <table class="table table-striped">
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Dokumen</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        @if (download != null && download.Count() > 0)
+                                                        {
+                                                            int i = 1;
+                                                            @foreach (var item in download)
+                                                            {
+                                                                <tr>
+                                                                    <td>@(i)</td>
+                                                                    <td>@(item.Kode)</td>
+                                                                    <td>
+                                                                        <a href="#" v-on:click="downloadDoc('@(item.Idresultclient)', '@(item.Kode)', '@(item.NoKtp)')"> Download </a>
+                                                                        @*<input type="hidden" id="idsurvey" value="@datapribadi.Id">*@
+                                                                        @*<button type="button" class="btn btn-success btn-block" v-on:click="downloadDoc(@(item.Idresultclient), @(item.Kode))">Download</button>*@
+                                                                    </td>
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                        }
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

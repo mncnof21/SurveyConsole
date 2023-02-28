@@ -480,7 +480,7 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
     <PackageReference Include="CorePush" Version="3.0.10" />
     <PackageReference Include="FirebaseAdmin" Version="2.0.0" />
-    <PackageReference Include="iTextSharp" Version="5.5.13.2" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.20" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
@@ -492,9 +492,10 @@
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.15.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Nancy" Version="2.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.10" />
+    <PackageReference Include="Syncfusion.Pdf.Net.Core" Version="20.3.0.58" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.0" />
   </ItemGroup>
 
@@ -1252,6 +1253,21 @@
     <None Include="bin\release\net5.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
     <None Include="bin\release\net5.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll" />
     <None Include="bin\release\net5.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

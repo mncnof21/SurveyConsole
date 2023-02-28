@@ -384,6 +384,45 @@ namespace SurveyConsole.Controllers
             return Content(JsonConvert.SerializeObject(hr), "application/json");
         }
 
+        public IActionResult UpdMasterUser([FromBody] FrmUpdMasterUser famu)
+        {
+            AppResponse.HttpResponse hr = new AppResponse.HttpResponse();
+            List<ValidationError> validationErrors = famu.Validate();
+
+            if (validationErrors == null || validationErrors.Count <= 0)
+            {
+                var upd = _survDB.Users.SingleOrDefault(a => a.Nik.Equals(famu.Nik));
+                if (upd != null)
+                {
+                    upd.Nama = famu.Nama;
+                }
+
+                foreach(var upd2 in _survDB.UserRoles.Where(x => x.UserId.Equals(famu.Nik)).ToList())
+                {
+                    upd2.GroupCode = famu.GroupCode;
+                }                  
+                
+
+                Boolean result_usr = _survDB.SaveChanges() > 0;
+
+                _survDB.Dispose();
+                if (result_usr == true)
+                {
+                    hr.statuscode = 201;
+                    hr.message = "Update User berhasil disimpan!";
+                }
+            }
+            else
+            {
+                hr.errors = validationErrors;
+                hr.statuscode = 200;
+                hr.message = string.Join(",", validationErrors.Select(a => a.ErrorMessage));
+            }
+
+            HttpContext.Response.StatusCode = hr.statuscode;
+            return Content(JsonConvert.SerializeObject(hr), "application/json");
+        }
+
         [HttpPost]
         public IActionResult ChangePassword([FromBody] FrmChangePassword fcp)
         {

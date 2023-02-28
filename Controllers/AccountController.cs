@@ -64,84 +64,84 @@ namespace SurveyConsole.Controllers
             return Json(output);
         }        
 
-        [HttpPost]
-        [IgnoreAntiforgeryToken]
-        public ActionResult Login(FrmLogin frmlogin)
-        {
-            int statusCode = 200;
-            try {
-                var errors = frmlogin.Validate();
-                if (errors != null && errors.Count > 0)
-                {
-                    if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                    {
-                        statusCode = 422;
-                        HttpContext.Response.StatusCode = statusCode;
-                        return Json(new
-                        {
-                            status = statusCode,
-                            message = "Validation error"
-                        });
-                    }
-                    else
-                    {
-                        TempData["errors"] = errors;
-                        return RedirectToAction("Login", "Auth");
-                    }
-                }
-                else
-                {
-                    List<String> jwt = _auth.checkLogin(frmlogin, HttpContext);
-                    if (jwt != null && jwt.Count() > 0)
-                    {                        
-                        statusCode = 200;
-                        HttpContext.Response.StatusCode = statusCode;
-                        var query = (from a in _survDB.UserRoles
-                                        join b in _survDB.Users on a.UserId equals b.Nik
-                                        join c in _survDB.MasterBranches on a.CCode equals c.CCode
-                                        where a.UserId == frmlogin.nik && a.CCode == frmlogin.branch
-                                        select new
-                                        {
-                                            UserId = a.UserId,
-                                            GroupCode = a.GroupCode,
-                                            BranchName = c.CName,
-                                            UserName = b.Nama
-                                        }).ToList();
+        //[HttpPost]
+        //[IgnoreAntiforgeryToken]
+        //public ActionResult Login(FrmLogin frmlogin)
+        //{
+        //    int statusCode = 200;
+        //    try {
+        //        var errors = frmlogin.Validate();
+        //        if (errors != null && errors.Count > 0)
+        //        {
+        //            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        //            {
+        //                statusCode = 422;
+        //                HttpContext.Response.StatusCode = statusCode;
+        //                return Json(new
+        //                {
+        //                    status = statusCode,
+        //                    message = "Validation error"
+        //                });
+        //            }
+        //            else
+        //            {
+        //                TempData["errors"] = errors;
+        //                return RedirectToAction("Login", "Auth");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            List<String> jwt = _auth.checkLogin(frmlogin, HttpContext);
+        //            if (jwt != null && jwt.Count() > 0)
+        //            {                        
+        //                statusCode = 200;
+        //                HttpContext.Response.StatusCode = statusCode;
+        //                var query = (from a in _survDB.UserRoles
+        //                                join b in _survDB.Users on a.UserId equals b.Nik
+        //                                join c in _survDB.MasterBranches on a.CCode equals c.CCode
+        //                                where a.UserId == frmlogin.nik && a.CCode == frmlogin.branch
+        //                                select new
+        //                                {
+        //                                    UserId = a.UserId,
+        //                                    GroupCode = a.GroupCode,
+        //                                    BranchName = c.CName,
+        //                                    UserName = b.Nama
+        //                                }).ToList();
 
-                        foreach (var data in query)
-                        {
-                            HttpContext.Session.SetString("BranchName", data.BranchName);
-                            HttpContext.Session.SetString("UserName", data.UserName);
-                            HttpContext.Session.SetString("GroupCode", data.GroupCode);
-                        }
-                        HttpContext.Session.SetString("User", frmlogin.nik);
-                        HttpContext.Session.SetString("BranchCode", frmlogin.branch);
+        //                foreach (var data in query)
+        //                {
+        //                    HttpContext.Session.SetString("BranchName", data.BranchName);
+        //                    HttpContext.Session.SetString("UserName", data.UserName);
+        //                    HttpContext.Session.SetString("GroupCode", data.GroupCode);
+        //                }
+        //                HttpContext.Session.SetString("User", frmlogin.nik);
+        //                HttpContext.Session.SetString("BranchCode", frmlogin.branch);
 
-                        return RedirectToAction("Index", "Home");                                              
-                    }
-                    else
-                    {
-                        statusCode = 401;
-                        HttpContext.Response.StatusCode = statusCode;
-                        return Json(new
-                        {
-                            status = statusCode,
-                            message = "Unauthorized"
-                        });
-                    }
-                }                
-            }
-            catch (Exception e)
-            {
-                statusCode = 500;
-                HttpContext.Response.StatusCode = statusCode;
-                return Json(new
-                {
-                    status = statusCode,
-                    message = e.Message + " " + e.StackTrace
-                });
-            }
-        }
+        //                return RedirectToAction("Index", "Home");                                              
+        //            }
+        //            else
+        //            {
+        //                statusCode = 401;
+        //                HttpContext.Response.StatusCode = statusCode;
+        //                return Json(new
+        //                {
+        //                    status = statusCode,
+        //                    message = "Unauthorized"
+        //                });
+        //            }
+        //        }                
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        statusCode = 500;
+        //        HttpContext.Response.StatusCode = statusCode;
+        //        return Json(new
+        //        {
+        //            status = statusCode,
+        //            message = e.Message + " " + e.StackTrace
+        //        });
+        //    }
+        //}
 
         [HttpPost]
         [IgnoreAntiforgeryToken]
@@ -209,8 +209,9 @@ namespace SurveyConsole.Controllers
                     else
                     {
                         statusCode = 401;
-                        HttpContext.Response.StatusCode = statusCode;                        
-                        TempData["alert"] = "Unauthorized with a JWT Token";
+                        HttpContext.Response.StatusCode = statusCode;
+                        //TempData["alert"] = "Unauthorized with a JWT Token";
+                        TempData["alert"] = "Incorrect user_id (nik) or password.";
                         return RedirectToAction("Login", "Auth");
                     }
                 }

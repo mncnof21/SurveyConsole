@@ -173,7 +173,7 @@ namespace SurveyConsole.Controllers
 
         [Route("ms-api/task/addsurvey")]
         [HttpPost]
-        [RequestFormLimits(MultipartBodyLengthLimit = 924288956)]
+        [RequestFormLimits(MultipartBodyLengthLimit = 1848577912)] //1848577912 924288956
         [Authorize]
         public ActionResult Survey([FromForm] FrmSurvAddSurvey survey)
         {
@@ -425,7 +425,7 @@ namespace SurveyConsole.Controllers
                 }
                 else
                 {
-                    statusCode = 404;
+                    statusCode = 201;
                     HttpContext.Response.StatusCode = statusCode;
                     return Json(new
                     {

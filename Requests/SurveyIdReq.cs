@@ -7,6 +7,6 @@ namespace SurveyConsole.Requests
 {
     public class SurveyIdReq
     {
-        public string id { set; get; }
+        public Guid id { set; get; }
     }
 }

@@ -13,7 +13,8 @@
 @section Scripts{
     <script>
         var jq = $.noConflict();
-        var baseUrl = '@((this.Context.Request.IsHttps ? "https://" : "http://") + (this.Context.Request.Host.Value))';
+        //var baseUrl = '@((this.Context.Request.IsHttps ? "https://" : "http://") + (this.Context.Request.Host.Value))';
+        var baseUrl = window.location.origin;
     </script>
     <script src="~/js/vuejs/vue.js"></script>
     <script src="~/js/axios/axios.js"></script>
@@ -23,16 +24,6 @@
         var vm = new Vue({
             el: "#app",
             data: {
-                //baseUrl: baseUrl,
-                //dt: null,
-                //customers: [],
-                //currPage: 1,
-                //totalPage: 1,
-                //totalData: 0,
-                //limit: 10,
-                //keyword: "",
-                //isLoading: !1,
-                //dtobj: {}
                 baseUrl: baseUrl, customers: [], currPage: 1, totalPage: 1, totalData: 0, limit: 10, keyword: "", isLoading: !1
             }, watch: {
                 limit: function (t, a) {

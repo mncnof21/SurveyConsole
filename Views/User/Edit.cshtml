@@ -158,7 +158,33 @@
                         }) : t.submit()
                 },
                 submitAll: function () {
-                    alert("n");
+                    var key = document.getElementById("nik").value;
+                    var sel2 = document.getElementById("groupcode");
+                    var t = document.getElementById("updMasterUser"), a = {
+                        Nik: document.getElementById("nik").value,
+                        Nama: document.getElementById("nama").value,
+                        Password: "none",
+                        CCode: "none",
+                        GroupCode: sel2.options[sel2.selectedIndex].value,
+                    };
+                    a.Nik ?
+                        axios({
+                            method: "post",
+                            url: '@Url.Action("UpdMasterUser", "User")',
+                            data: a
+                        }).then(t => {
+                            if (t.data.errors == null) {
+                                Swal.fire("Sukses", t.data.message, "success").then(function () {
+                                    location.href = baseUrl + '/User/Edit/?id=' + key,
+                                    vm.closeModal()
+                                })
+                            }
+                            else {
+                                Swal.fire("Info!", t.data.message, "info")
+                            }
+                        }).catch(t => {
+                            Swal.fire("Gagal!", t.data.message, "error")
+                        }) : t.submit()
                 },
             }
         });
@@ -216,6 +242,14 @@
                                                             else
                                                             {
                                                                 <option value="ADM">Administrator</option>
+                                                            }
+                                                            @if (userrole2.GroupCode == "ADD")
+                                                            {
+                                                                <option value="ADD" selected>Admin Digital</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="ADD">Admin Digital</option>
                                                             }
                                                             @if (userrole2.GroupCode == "BR-BM")
                                                             {
@@ -332,7 +366,9 @@
                                     </div>
                                     <div class="col-md-1">
                                         <div class="form">
-                                            <button type="button" id="btnsubmitall" class="btn btn-success btn-block" v-on:click="submitAll()">Submit</button>
+                                            <form id="updMasterUser" method="post">
+                                                <button type="button" id="btnsubmitall" class="btn btn-success btn-block" v-on:click="submitAll()">Submit</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

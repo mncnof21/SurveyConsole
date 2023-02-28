@@ -2,15 +2,26 @@
 @model SiapDm;
 
 @{
+    var unitdesc = ViewBag.unit;
+
     String siapurl = TempData["SiapUrl"].ToString();
     String sts = Model.MfinState;
 
+    String strMonthlyIncome = Convert.ToDouble(Model.MonthlyIncome).ToString("###,###,###,###,###,###").Replace(",", ".");
+    String strSubmittedAmount = Convert.ToDouble(Model.SubmittedAmount).ToString("###,###,###,###,###,###").Replace(",", ".");
+    String strFee = Convert.ToDouble(Model.Fee).ToString("###,###,###,###,###,###").Replace(",", ".");
+    String strEstimatedInstallment = Convert.ToDouble(Model.EstimatedInstallment).ToString("###,###,###,###,###,###").Replace(",", ".");
+    String strEstimatedDisbursement = Convert.ToDouble(Model.EstimatedDisbursement).ToString("###,###,###,###,###,###").Replace(",", ".");
+
+    
     String strStnkPhoto = Model.StnkPhoto.Replace("C:\\","/").Replace("\\","/").Replace("Application/APISIAP/wwwroot/Upload", "images");
     String strCarPhoto = Model.CarPhoto.Replace("C:\\", "/").Replace("\\", "/").Replace("Application/APISIAP/wwwroot/Upload", "images");
     String strSelfieWithKtpPhoto = Model.SelfieWithKtpPhoto.Replace("C:\\", "/").Replace("\\", "/").Replace("Application/APISIAP/wwwroot/Upload", "images");
     String strNpwpPhoto = Model.NpwpPhoto.Replace("C:\\", "/").Replace("\\", "/").Replace("Application/APISIAP/wwwroot/Upload", "images");
 
     String lblsts = "";
+    String iconactivity = "";
+    String textactivity = "";
 
     String stsbtnitrack = "";
     String stsbtnsurveyprogress = "";
@@ -18,10 +29,21 @@
     String stsbtninputcore = "";
     String stsbtncommitteeapprove = "";
     String stsbtncommitteereject = "";
-    String stsbtncommitteecancel = "";
-    String stsbtnterminate = "";
+    String stsbtncommitteecancel = "";    
     String stsbtngoliveactive = "";
     String stsbtngolivedisburse = "";
+    String stsbtnterminate = "";
+
+    String cbtnitrack = "";
+    String cbtnsurveyprogress = "";
+    String cbtnsurveydone = "";
+    String cbtninputcore = "";
+    String cbtncommitteeapprove = "";
+    String cbtncommitteereject = "";
+    String cbtncommitteecancel = "";    
+    String cbtngoliveactive = "";
+    String cbtngolivedisburse = "";
+    String cbtnterminate = "";
 }
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
@@ -104,9 +126,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="income" class="col-sm-4 col-form-label">Nett Pendapatan / Bulan</label>
+                        <label for="income" class="col-sm-4 col-form-label">Nett Pendapatan / Bulan (IDR)</label>
                         <div class="col-sm-8">
-                            <input class="form-control" id="income" value="@(Model.MonthlyIncome)" readonly disabled>
+                            <input class="form-control" id="income" value="@(strMonthlyIncome)" readonly disabled>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -200,7 +222,7 @@
     </div>
     <div class="tab-pane fade" id="financing" role="tabpanel" aria-labelledby="financing-tab">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form">
@@ -217,15 +239,17 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="principal" class="col-sm-4 col-form-label">Pokok Hutang</label>
+                                <label for="principal" class="col-sm-4 col-form-label">Pokok Hutang (IDR)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" id="principal" value="@(Model.SubmittedAmount)" readonly disabled>
+                                    <input class="form-control" id="principal" value="@(strSubmittedAmount)" readonly disabled>
+                                    <input class="form-control" id="principaldb" value="@(Model.SubmittedAmount)" hidden />
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="fee" class="col-sm-4 col-form-label">Biaya Admin</label>
+                                <label for="fee" class="col-sm-4 col-form-label">Biaya Admin (IDR)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" id="fee" value="@(Model.Fee)" readonly disabled>
+                                    <input class="form-control" id="fee" value="@(strFee)" readonly disabled>
+                                    <input class="form-control" id="feedb" value="@(Model.Fee)" hidden />
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -235,15 +259,17 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="installment" class="col-sm-4 col-form-label">Angsuran</label>
+                                <label for="installment" class="col-sm-4 col-form-label">Angsuran (IDR)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" id="installment" value="@(Model.EstimatedInstallment)" readonly disabled>
+                                    <input class="form-control" id="installment" value="@(strEstimatedInstallment)" readonly disabled>
+                                    <input class="form-control" id="installmentdb" value="@(Model.EstimatedInstallment)" hidden />
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="installment" class="col-sm-4 col-form-label">Disbursement</label>
+                                <label for="installment" class="col-sm-4 col-form-label">Pendanaan (IDR)</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" id="disbursement" value="@(Model.EstimatedDisbursement)" readonly disabled>
+                                    <input class="form-control" id="disbursement" value="@(strEstimatedDisbursement)" readonly disabled>
+                                    <input class="form-control" id="disbursementdb" value="@(Model.EstimatedDisbursement)" hidden />
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -255,7 +281,8 @@
                             <div class="form-group row">
                                 <label for="cartype" class="col-sm-4 col-form-label">Merk/Jenis/Tipe Kendaraan</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control" id="cartype" value="@(Model.CarBrand + " /" + Model.CarType + "/" + Model.CarModel)" readonly disabled>
+                                    @*<input class="form-control" id="cartype" value="@(Model.CarBrand + " /" + Model.CarType + "/" + Model.CarModel)" readonly disabled>*@
+                                    <input class="form-control" id="cartype" value="@(unitdesc)" readonly disabled>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -273,25 +300,65 @@
                             <div class="form-group row">
                                 <label for="stnk" class="col-sm-4 col-form-label">Foto STNK</label>
                                 <div class="col-sm-8" style="padding-top:9px;">
-                                    <a href="@(siapurl + strStnkPhoto)" target="_blank">Foto STNK</a>
+                                    <ul class="list-group custom-list-group mb-n3">
+                                        <li class="list-group-item align-items-center d-flex justify-content-between">
+                                            <div class="media">
+                                                <img src="@(siapurl + strStnkPhoto)" class="me-3 align-self-center rounded" height="80">
+                                                <div>&nbsp;&nbsp;</div>
+                                                <div class="media-body align-self-center"> 
+                                                    <a href="@(siapurl + strStnkPhoto)" target="_blank" class="font-12 text-primary">View</a>
+                                                </div><!--end media body-->
+                                            </div>                                           
+                                        </li>                                        
+                                    </ul>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="carphoto" class="col-sm-4 col-form-label">Foto Kendaraan</label>
                                 <div class="col-sm-8" style="padding-top:9px;">
-                                    <a href="@(siapurl + strCarPhoto)" target="_blank">Foto Kendaraan</a>
+                                    <ul class="list-group custom-list-group mb-n3">
+                                        <li class="list-group-item align-items-center d-flex justify-content-between">
+                                            <div class="media">
+                                                <img src="@(siapurl + strCarPhoto)" class="me-3 align-self-center rounded" height="80">
+                                                <div>&nbsp;&nbsp;</div>
+                                                <div class="media-body align-self-center">
+                                                    <a href="@(siapurl + strCarPhoto)" target="_blank" class="font-12 text-primary">View</a>
+                                                </div><!--end media body-->
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="selfie" class="col-sm-4 col-form-label">Foto Selfie dengan KTP</label>
                                 <div class="col-sm-8" style="padding-top:9px;">
-                                    <a href="@(siapurl + strSelfieWithKtpPhoto)" target="_blank">Foto Selfie dengan KTP</a>
+                                    <ul class="list-group custom-list-group mb-n3">
+                                        <li class="list-group-item align-items-center d-flex justify-content-between">
+                                            <div class="media">
+                                                <img src="@(siapurl + strSelfieWithKtpPhoto)" class="me-3 align-self-center rounded" height="80">
+                                                <div>&nbsp;&nbsp;</div>
+                                                <div class="media-body align-self-center">
+                                                    <a href="@(siapurl + strSelfieWithKtpPhoto)" target="_blank" class="font-12 text-primary">View</a>
+                                                </div><!--end media body-->
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="npwp" class="col-sm-4 col-form-label">Foto NPWP</label>
                                 <div class="col-sm-8" style="padding-top:9px;">
-                                    <a href="@(siapurl + strNpwpPhoto)" target="_blank">Foto NPWP</a>
+                                    <ul class="list-group custom-list-group mb-n3">
+                                        <li class="list-group-item align-items-center d-flex justify-content-between">
+                                            <div class="media">
+                                                <img src="@(siapurl + strNpwpPhoto)" class="me-3 align-self-center rounded" height="80">
+                                                <div>&nbsp;&nbsp;</div>
+                                                <div class="media-body align-self-center">
+                                                    <a href="@(siapurl + strNpwpPhoto)" target="_blank" class="font-12 text-primary">View</a>
+                                                </div><!--end media body-->
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -305,7 +372,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <form id="frmrejectdata">
-                                        <button type="button" class="btn btn-danger btn-block" v-on:click="rejectDanaMobil()">Reject</button>
+                                        <button type="button" class="btn btn-danger px-3 mt-2" v-on:click="rejectDanaMobil()">Reject</button>
                                     </form>
                                 </div>
                                 <div class="col-sm-4">
@@ -315,250 +382,509 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Tracking Status</h4>
+                        <h4 class="card-title">Activity (Tracking Status)</h4>
                     </div><!--end card-header-->
                     <div class="card-body">
-                        <div class="main-timeline mt-3">
-                            <div class="timeline">
-                                <span class="timeline-icon"></span>
-                                <span class="year">Entry Data</span>
-                                <div class="timeline-content">
-                                    <p class="description">
-                                        Status : <b>
-                                            @{
-                                                if (sts == "push-to-mfin")
-                                                {
-                                                    lblsts = sts;
-                                                }
-                                                else
-                                                {
-                                                    lblsts = "";
-                                                }
-                                            }
-                                            @(lblsts)
-                                        </b>
-                                        <input class="form-control" id="sts" value="@(sts)" readonly />
-                                    </p>
-                                </div>
-                            </div>
 
-                            <div class="timeline">
-                                <span class="timeline-icon"></span>
-                                <span class="year">Push ITrack</span>
-                                <div class="timeline-content">
-                                    <p class="description">
-                                        Status :
-                                        @{
-                                            if (sts == "push-to-mfin")
-                                            {
-                                                stsbtnitrack = "";
-                                            }
-                                            else
-                                            {
-                                                stsbtnitrack = "disabled";
-                                            }
-                                        }
-                                        <form id="frmpushitrack">
-                                            <input class="form-control" id="sts" value="@(sts)" readonly />
-                                            <button type="button" class="btn btn-primary btn-block" v-on:click="submitItrack()" @(stsbtnitrack)>Submit</button>
-                                        </form>
-                                    </p>
-                                </div>
-                            </div>
+                        <div class="slimscroll activity-scroll">
+                            <div class="activity">
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-edit"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="text-muted mb-0 fw-semibold">
+                                                            Status :                                                         
+                                                        </p>
+                                                        <h3 class="text-muted m-0">
+                                                            Entry Data                                                            
+                                                        </h3>                                                        
+                                                    </div>                                                    
+                                                </div>
+                                            </div><!--end card-body--> 
+                                        </div>                                        
+                                    </div>
+                                </div> 
 
-                            <div class="timeline">
-                                <span class="timeline-icon"></span>
-                                <span class="year">Survey Data</span>
-                                <div class="timeline-content">
-                                    <p class="description">
+                                @{
+                                    if (sts == "push-to-mfin")
+                                    {
+                                        stsbtnitrack = "";
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                        cbtnitrack = "btn btn-sm btn-primary px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtnitrack = "disabled";
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                        cbtnitrack = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-mouse-pointer @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)                                                                                                                        
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Push iTrack                                                            
+                                                        </h3>                                                        
+                                                    </div>                                                    
+                                                </div>
+                                                <hr class="hr-dashed">
+                                                <form id="frmpushitrack">                                                    
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <button type="button" class="@(cbtnitrack)" v-on:click="submitItrack()" @(stsbtnitrack)>Submit iTrack</button>
+                                                </form>
+                                            </div><!--end card-body--> 
+                                        </div>                                        
+                                    </div>
+                                </div>
+
+                                @{
+                                    if (sts == "itrack-submit")
+                                    {
+                                        stsbtnsurveyprogress = "";
+                                        cbtnsurveyprogress = "btn btn-sm btn-warning px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtnsurveyprogress = "disabled";
+                                        cbtnsurveyprogress = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "survey-onprogress")
+                                    {
+                                        stsbtnsurveydone = "";
+                                        cbtnsurveydone = "btn btn-sm btn-success px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtnsurveydone = "disabled";
+                                        cbtnsurveydone = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "itrack-submit" || sts == "survey-onprogress")
+                                    {
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
                                         
-                                        @{
-                                            if (sts == "itrack-submit")
-                                            {
-                                                stsbtnsurveyprogress = "";
-                                            }
-                                            else
-                                            {
-                                                stsbtnsurveyprogress = "disabled";
-                                            }
+                                    }
+                                    else
+                                    {
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-car @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)                                                            
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Survey Data
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <hr class="hr-dashed">
+                                                <form id="frmsurveydata">
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <div class="mb-3 row">
+                                                        <label for="horizontalInput1" class="col-sm-2 form-label align-self-center mb-lg-0">Survey Date</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="surveydate" value="@(Model.SurveyDate)" readonly />
+                                                        </div>
+                                                    </div>
 
-                                            if (sts == "survey-onprogress")
-                                            {
-                                                stsbtnsurveydone = "";
-                                            }
-                                            else
-                                            {
-                                                stsbtnsurveydone = "disabled";
-                                            }
-                                        }
-                                        <form id="frmsurveydata">
-                                            Status :
-                                            <input class="form-control" id="sts" value="@(sts)" readonly /><br />
-                                            Survey Date :
-                                            <input class="form-control" id="surveydate" value="@(Model.SurveyDate)" readonly />
-                                            <select class="form-control" id="surveyor" name="surveyor">
-                                                <option value="">-- select</option>
-                                                <option value="MNCF">MNCF</option>
-                                                <option value="POS">POS</option>
-                                            </select>
-                                            <button type="button" class="btn btn-warning btn-block" v-on:click="surveyOnprogress()" @(stsbtnsurveyprogress)>On progress</button>
-                                            <button type="button" class="btn btn-success btn-block" v-on:click="surveyDone()" @(stsbtnsurveydone)>Done</button>
-                                        </form>
-                                    </p>
+                                                    <div class="mb-3 row">
+                                                        <label for="horizontalInput2" class="col-sm-2 form-label align-self-center mb-lg-0">Surveyor</label>
+                                                        <div class="col-sm-10">
+                                                            <select class="form-control" id="surveyor" name="surveyor" @(stsbtnsurveyprogress)>
+                                                                <option value="">-- select</option>
+                                                                <option value="MNCF">MNCF</option>
+                                                                <option value="POS">POS</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>                                                    
+                                                    <div class="row">
+                                                        <div class="col-sm-10 ms-auto">
+                                                            <button type="button" class="@(cbtnsurveyprogress)" v-on:click="surveyOnprogress()" @(stsbtnsurveyprogress)>On Progress</button>
+                                                            <button type="button" class="@(cbtnsurveydone)" v-on:click="surveyDone()" @(stsbtnsurveydone)>Done</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
+                                </div>     
+
+                                @{
+                                    if (sts == "survey-done")
+                                    {
+                                        stsbtninputcore = "";
+                                        cbtninputcore = "btn btn-sm btn-success px-3 mt-2";
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";                                            
+                                    }
+                                    else
+                                    {
+                                        stsbtninputcore = "disabled";
+                                        cbtninputcore = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-desktop @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Input Core
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <hr class="hr-dashed">
+                                                <form id="frminputcore">
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <button type="button" class="@(cbtninputcore)" v-on:click="submitInputCore()" @(stsbtninputcore)>Submit MSIX</button>
+                                                </form>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
+                                </div>  
+
+                                @{
+                                    if (sts == "core-submit")
+                                    {
+                                        stsbtncommitteeapprove = "";
+                                        stsbtncommitteereject = "";
+                                        stsbtncommitteecancel = "";
+                                        cbtncommitteeapprove = "btn btn-sm btn-success px-3 mt-2";
+                                        cbtncommitteereject = "btn btn-sm btn-danger px-3 mt-2";
+                                        cbtncommitteecancel = "btn btn-sm btn-warning px-3 mt-2";
+
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        stsbtncommitteeapprove = "disabled";
+                                        stsbtncommitteereject = "disabled";
+                                        stsbtncommitteecancel = "disabled";
+                                        cbtncommitteeapprove = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                        cbtncommitteereject = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                        cbtncommitteecancel = "btn btn-sm btn-outline-secondary px-3 mt-2";
+
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-user-check @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Committee
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <hr class="hr-dashed">
+
+                                                <form id="frmcommittee">
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <div class="mb-3 row">
+                                                        <label for="horizontalInput1" class="col-sm-2 form-label align-self-center mb-lg-0">Contract Number</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="contractno_msix" value="" @(stsbtncommitteeapprove) />
+                                                        </div>
+                                                    </div>                                                                                                    
+                                                    <div class="row">
+                                                        <div class="col-sm-10 ms-auto">
+                                                            <button type="button" class="@(cbtncommitteeapprove)" v-on:click="committeeApproved()" @(stsbtncommitteeapprove)>Approved</button>
+                                                            <button type="button" class="@(cbtncommitteereject)" v-on:click="committeeReject()" @(stsbtncommitteereject)>Reject</button>
+                                                            <button type="button" class="@(cbtncommitteecancel)" v-on:click="committeeCancel()" @(stsbtncommitteecancel)>Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="timeline">
-                                <span class="timeline-icon"></span>
-                                <span class="year">Input Core</span>
-                                <div class="timeline-content">
-                                    <p class="description">
-                                        Status :
-                                        @{
-                                            if (sts == "survey-done")
-                                            {
-                                                stsbtninputcore = "";
-                                            }
-                                            else
-                                            {
-                                                stsbtninputcore = "disabled";
-                                            }
-                                        }
-                                        <form id="frminputcore">
-                                            <input class="form-control" id="sts" value="@(sts)" readonly /><br />                                            
-                                            <button type="button" class="btn btn-success btn-block" v-on:click="submitInputCore()" @(stsbtninputcore)>Submit</button>
-                                        </form>
-                                    </p>
+                                @{
+                                    if (sts == "approval-approved" || sts == "propose-agree")
+                                    {                                        
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-file-alt @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Offering Letter
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="timeline">
-                                <span class="timeline-icon"></span>
-                                <span class="year">Committee</span>
-                                <div class="timeline-content">
-                                    <p class="description">
-                                        Status :
-                                        @{
-                                            if (sts == "core-submit")
-                                            {
-                                                stsbtncommitteeapprove = "";
-                                                stsbtncommitteereject = "";
-                                                stsbtncommitteecancel = "";
-                                            }
-                                            else
-                                            {
-                                                stsbtncommitteeapprove = "disabled";
-                                                stsbtncommitteereject = "disabled";
-                                                stsbtncommitteecancel = "disabled";
-                                            }
-                                        }
-                                        <form id="frmcommittee">
-                                            <input class="form-control" id="sts" value="@(sts)" readonly />
-                                            Contract No. :<br />
-                                            <input class="form-control" id="contractno_msix" value="" @(stsbtncommitteeapprove) />
-                                            <button type="button" class="btn btn-success btn-block" v-on:click="committeeApproved()" @(stsbtncommitteeapprove)>Approved</button>
-                                            <button type="button" class="btn btn-danger btn-block" v-on:click="committeeReject()" @(stsbtncommitteereject)>Reject</button>
-                                            <button type="button" class="btn btn-secondary btn-block" v-on:click="committeeCancel()" @(stsbtncommitteecancel)>Cancel</button>
-                                        </form>
-                                    </p>
+                                @{
+                                    if (sts == "collateral-onprogress" || sts == "collateral-arrived" || sts == "collateral-collected")
+                                    {
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-paste @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Collateral
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="timeline">
-                                <span class="timeline-icon"></span>
-                                <span class="year">Offer. Letter</span>
-                                <div class="timeline-content">
-                                    <p class="description">
-                                        Status : 
-                                        <input class="form-control" id="sts" value="@(sts)" readonly />
-                                    </p>
+                                @{
+                                    if (sts == "sign-start" || sts == "sign-applicant" || sts == "sign-spouse")
+                                    {
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-pen-alt @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Digital Sign                                                           
+                                                        </h3>                                                        
+                                                    </div>                                                    
+                                                </div>
+                                            </div><!--end card-body--> 
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="timeline">
-                                <span class="timeline-icon"></span>
-                                <span class="year">Collateral</span>
-                                <div class="timeline-content">
-                                    <p class="description">
-                                        Status :
-                                        <input class="form-control" id="sts" value="@(sts)" readonly />
-                                    </p>
+                                @{                                    
+                                    //if (sts == "sign-mfin")
+                                    //{
+                                    //    stsbtngoliveactive = "";
+                                    //}
+                                    //else
+                                    //{
+                                    //    stsbtngoliveactive = "disabled";
+                                    //}
+                                    // collateral-collected
+
+                                    if (sts == "sign-mfin")
+                                    {
+                                        stsbtngoliveactive = "";
+                                        cbtngoliveactive = "btn btn-sm btn-primary px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtngoliveactive = "disabled";
+                                        cbtngoliveactive = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "golive-active")
+                                    {
+                                        stsbtngolivedisburse = "";
+                                        cbtngolivedisburse = "btn btn-sm btn-success px-3 mt-2";
+                                    }
+                                    else
+                                    {
+                                        stsbtngolivedisburse = "disabled";
+                                        cbtngolivedisburse = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                    }
+
+                                    if (sts == "sign-mfin" || sts == "golive-active")
+                                    {
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-money-bill @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)                                                            
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Disburse
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <hr class="hr-dashed">
+                                                <form id="frmdisburse">
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <button type="button" class="@(cbtngoliveactive)" v-on:click="goliveActive()" @(stsbtngoliveactive)>Active</button>
+                                                    <button type="button" class="@(cbtngolivedisburse)" v-on:click="goliveDisburse()" @(stsbtngolivedisburse)>Disburse</button>
+                                                </form>
+                                            </div><!--end card-body-->
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="timeline">
-                                <span class="timeline-icon"></span>
-                                <span class="year">Digital Sign</span>
-                                <div class="timeline-content">
-                                    <p class="description">
-                                        Status : 
-                                        <input class="form-control" id="sts" value="@(sts)" readonly />
-                                    </p>
+                                @{
+                                    if (sts == "golive-disburse")
+                                    {
+                                        stsbtnterminate = "";
+                                        cbtnterminate = "btn btn-sm btn-primary px-3 mt-2";
+                                        lblsts = sts;
+                                        iconactivity = " bg-soft-primary";
+                                        textactivity = "text-dark ";
+                                    }
+                                    else
+                                    {
+                                        stsbtnterminate = "disabled";
+                                        cbtnterminate = "btn btn-sm btn-outline-secondary px-3 mt-2";
+                                        lblsts = "";
+                                        iconactivity = "";
+                                        textactivity = "text-muted";
+                                    }
+                                }
+                                <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                        <i class="las la-money-bill-wave @(iconactivity)"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                        <div class="card report-card">
+                                            <div class="card-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col">
+                                                        <p class="@(textactivity) mb-0 fw-semibold">
+                                                            Status : @(lblsts)                                                           
+                                                        </p>
+                                                        <h3 class="@(textactivity) m-0">
+                                                            Loan Terminate                                                          
+                                                        </h3>                                                        
+                                                    </div>                                                    
+                                                </div>
+                                                <hr class="hr-dashed">
+                                                <form id="frmterminate"> 
+                                                    <input class="form-control" id="sts" value="@(sts)" hidden />
+                                                    <button type="button" class="@(cbtnterminate)" v-on:click="loanTerminate()" @(stsbtnterminate)>Submit</button>
+                                                </form>
+                                            </div><!--end card-body--> 
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="timeline">
-                                <span class="timeline-icon"></span>
-                                <span class="year">Disburse</span>
-                                <div class="timeline-content">
-                                    <p class="description">
-                                        Status :
-                                        @{
-                                            if (sts == "sign-mfin")
-                                            {
-                                                stsbtngoliveactive = "";
-                                            }
-                                            else
-                                            {
-                                                stsbtngoliveactive = "disabled";
-                                            }
-
-                                            if (sts == "golive-active")
-                                            {
-                                                stsbtngolivedisburse = "";
-                                            }
-                                            else
-                                            {
-                                                stsbtngolivedisburse = "disabled";
-                                            }
-                                        }
-                                        <form id="frmdisburse">
-                                            <input class="form-control" id="sts" value="@(sts)" readonly />
-                                            <button type="button" class="btn btn-primary btn-block" v-on:click="goliveActive()" @(stsbtngoliveactive)>Active</button>
-                                            <button type="button" class="btn btn-success btn-block" v-on:click="goliveDisburse()" @(stsbtngolivedisburse)>Disburse</button>
-                                        </form>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="timeline">
-                                <span class="timeline-icon"></span>
-                                <span class="year">Loan Terminate</span>
-                                <div class="timeline-content">
-                                    <p class="description">
-                                        Status :
-                                        @{
-                                            if (sts == "golive-disburse")
-                                            {
-                                                stsbtnterminate = "";
-                                            }
-                                            else
-                                            {
-                                                stsbtnterminate = "disabled";
-                                            }
-                                        }
-                                        <form id="frmterminate">
-                                            <input class="form-control" id="sts" value="@(sts)" readonly />
-                                            <button type="button" class="btn btn-primary btn-block" v-on:click="loanTerminate()" @(stsbtnterminate)>Submit</button>
-                                        </form>
-                                    </p>
-                                </div>
-                            </div>
-
-                        </div>
+                            </div><!--end activity-->
+                        </div>                        
                     </div>  <!--end card-body-->
                 </div><!--end card-->
             </div>
