@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SurveyConsole.Models;
 using SurveyConsole.Models.FACEDB;
+using SurveyConsole.Models.Survdbpgsql;
 using SurveyConsole.Repositories;
 using System;
 using System.Collections.Generic;
@@ -25,17 +26,19 @@ namespace SurveyConsole.Controllers
     {
         private ILogger<SiapController> _logger;
         private FACEDBContext _facedb;
+        private survdbContext _survdb;
         private SiapRepository _siapRepository;
         private IConfiguration _config;
         private AppsSettings _appSettings = new AppsSettings();
         private IWebHostEnvironment _hostingEnvironment;
 
-        public SiapController(ILogger<SiapController> logger, IConfiguration config, IWebHostEnvironment hostingEnvironment, FACEDBContext facedb)
+        public SiapController(ILogger<SiapController> logger, IConfiguration config, IWebHostEnvironment hostingEnvironment, FACEDBContext facedb, survdbContext survdb)
         {
             _logger = logger;
             _config = config;
             _config.Bind(_appSettings);
             _facedb = facedb;
+            _survdb = survdb;
             _hostingEnvironment = hostingEnvironment;
             _siapRepository = new SiapRepository(_facedb);
         }
@@ -45,6 +48,7 @@ namespace SurveyConsole.Controllers
         {
             return RedirectToAction("DanaRumah", "Siap");
         }
+        
 
         public ActionResult DanaRumah()
         {
@@ -479,6 +483,11 @@ namespace SurveyConsole.Controllers
 
                 ViewBag.unit = unitdesc;
 
+                var querybranchall = _survdb.MasterBranches;
+                var resultbranchall = querybranchall.ToList();
+
+                ViewBag.branch = resultbranchall;
+
                 var data = _facedb.SiapDms.Where(a => a.EntryId == id).OrderByDescending(a => a.CreDate).ThenByDescending(a => a.ModDate).FirstOrDefault();
 
                 if(data == null)
@@ -590,7 +599,12 @@ namespace SurveyConsole.Controllers
                     client.DefaultRequestHeaders.Authorization = header;
 
                     // content data
-                    var json = Chipher.Encryptword(JsonConvert.SerializeObject(fusr));
+
+                    FrmUpdateStatusSurveyMCReq frmUpdateStatusSurveyMCReq = new FrmUpdateStatusSurveyMCReq();
+                    frmUpdateStatusSurveyMCReq.application_id = fusr.application_id;
+                    frmUpdateStatusSurveyMCReq.status = fusr.status;
+                    frmUpdateStatusSurveyMCReq.wop = fusr.wop;
+                    var json = Chipher.Encryptword(JsonConvert.SerializeObject(frmUpdateStatusSurveyMCReq));
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
                     client.BaseAddress = new Uri(_config["MotionUrl"]);
@@ -608,8 +622,28 @@ namespace SurveyConsole.Controllers
                                 upd.MfinState = fusr.status;
                                 upd.Wop = fusr.wop;
                                 _facedb.SaveChanges();
-                                hr.statuscode = 200;
-                                hr.message = "Update Status (" + fusr.status + ") berhasil disimpan!";
+
+                                Tasklist tasklist= new Tasklist();
+                                tasklist.Id = Guid.NewGuid();
+
+                                tasklist.Nama = fusr.fullname;
+                                tasklist.Nik = fusr.nik;
+                                tasklist.Nopol = fusr.policeno;
+                                tasklist.Notelp = fusr.phone;
+                                tasklist.Alamat = fusr.address;
+                                tasklist.IsPush = 0;
+                                tasklist.Creby = "motion-credit";
+                                tasklist.Ccode = fusr.branch;
+                                _survdb.Tasklists.Add(tasklist);
+
+                                Boolean result_tl = _survdb.SaveChanges() > 0;
+
+                                _survdb.Dispose();
+                                if (result_tl == true)
+                                {
+                                    hr.statuscode = 200;
+                                    hr.message = "Update Status (" + fusr.status + ") berhasil disimpan!";
+                                }                                    
                             }
                         }
                     }
